@@ -1,0 +1,17 @@
+{# src/Sdz/AdminBundle/Resources/views/Admin/.html.twig #}
+
+{% extends "ParcAdminBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Modification {{titre}}
+{% endblock %}
+
+{% block contenu %}
+	<div >
+		{{form(form)}}
+	</div>
+{% endblock %}

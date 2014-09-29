@@ -1,0 +1,42 @@
+<h3>Derniers News</h3><br>
+
+<button id="news-add" href="#"> Ajouter un news </button> <br><br>
+
+<div class="dialog-form2" title="Ajouter un news"> 
+	<p></p>
+	<form class="modalform" action="{{path('parc_puffins_bag_accueil')}}" method="post">
+		{{form(form)}}
+		{#{form_row(form.sujet)}}
+		{{form_row(form.contenu)}}
+		{{form_row(form.dateDebut)}}
+		{{form_row(form.dateFin)}#} 
+	</form>  
+</div>
+
+<div id="accordion">
+
+	{% for key, news in all_news %}
+		<h3> {{news.sujet}}  </h3>
+		<div>
+			<em><h4>Publié par {{news.auteur}} le {{news.dateDebut|date('d-M-Y')}}</h4></em>
+			<p> {{news.contenu}}</p>
+		</div>
+	{% endfor %}
+	
+</div>
+
+{#<div id="tabs">
+	<ul>
+	{% for key, news in all_news %}	
+		<li><a href="#tabs-{{key+1}}"> {{news.sujet}} </a> </li> 
+	{% endfor %}
+	</ul>
+	
+	{% for key, news in all_news %}
+		<div id="tabs-{{key+1}}">
+			<em><h4>Publié par {{news.auteur}} le {{news.dateDebut|date('d-M-Y')}}</h4></em>
+			<p> {{news.contenu}}</p>
+		</div>
+	{% endfor %}
+	
+</div>#}

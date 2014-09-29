@@ -1,0 +1,17 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }} : Modifier
+{% endblock %}
+
+{% block page_titre %}	
+	Modification de l'enregistrement {{ puffin.id }}
+{% endblock %}
+
+{% block contenu %}
+	
+	{% include "ParcPuffinsBagBundle:PuffinsBag:formulaire.html.twig" %}
+	
+{% endblock %}

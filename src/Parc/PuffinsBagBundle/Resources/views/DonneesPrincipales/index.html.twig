@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>DonneesPrincipales list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codeile</th>
+                <th>Lieudit</th>
+                <th>Bagueur</th>
+                <th>Espece</th>
+                <th>Action</th>
+                <th>Bague</th>
+                <th>Terrier</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Sexe</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('donneesprincipales_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.codeIle }}</td>
+                <td>{{ entity.lieudit }}</td>
+                <td>{{ entity.bagueur }}</td>
+                <td>{{ entity.espece }}</td>
+                <td>{{ entity.action }}</td>
+                <td>{{ entity.bague }}</td>
+                <td>{{ entity.terrier }}</td>
+                <td>{% if entity.date %}{{ entity.date|date('d-m-Y H:i:s') }}{% endif %}</td>
+                <td>{{ entity.heure }}</td>
+                <td>{{ entity.sexe }}</td>
+                <td>{{ entity.age }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('donneesprincipales_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('donneesprincipales_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('donneesprincipales_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

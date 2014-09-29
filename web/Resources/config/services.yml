@@ -1,0 +1,7 @@
+parameters:
+#    parc_puffins_bag.example.class: Parc\PuffinsBagBundle\Example
+
+services:
+#    parc_puffins_bag.example:
+#        class: %parc_puffins_bag.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

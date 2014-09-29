@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+SRC_DIR="`pwd`"
+cd "`dirname "$0"`"
+cd "../vendor/andres-montanez/magallanes/bin"
+BIN_TARGET="`pwd`/mage"
+cd "$SRC_DIR"
+"$BIN_TARGET" "$@"

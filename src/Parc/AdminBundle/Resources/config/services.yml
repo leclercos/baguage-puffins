@@ -1,0 +1,7 @@
+parameters:
+#    parc_admin.example.class: Parc\AdminBundle\Example
+
+services:
+#    parc_admin.example:
+#        class: %parc_admin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,38 @@
+{# src/Parc/PuffinsBagBundle/Resources/views/layout.html.twig #}
+
+{% extends "::main.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block menu %}
+	{% include "ParcPuffinsBagBundle:PuffinsBag:menu.html.twig" %}
+{% endblock %}
+
+{% block deconnexion %}
+	<a href="{{ path('logout')}}"> 
+		<img src="{{asset('bundles/parcpuffinsbag/images/deconnect.ico')}}" width="32" alt="Exporter" class="icone"> 
+	</a> 
+{% endblock %}
+
+{% block body %}
+	<p></p>
+	<div class="presentation">
+		{# On définit un sous-titre pour chaque page du bundle, par exemple #}
+			{% block page_titre %}		
+		{% endblock %}			
+	</div>
+	<div class="noright">
+		<div id="center"> 
+			{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+			{% block contenu %}
+			{% endblock %}
+		</div>
+	</div>
+	
+	{% block news %}
+	 
+	{% endblock %}
+	
+{% endblock %}

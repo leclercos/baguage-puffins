@@ -1,0 +1,37 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }} - Resultats Requetes
+{% endblock %}
+
+{% block page_titre %}	
+	Résultats de la requete : {{nombreTotal}}
+{% endblock %} 
+
+{% block contenu %}
+	{%if nombrePage >0 %}
+		<div>
+			<a class="lien" href="{{ path('parc_puffins_bag_exporter_req', {'champs': champs,'valeurs': valeurs}) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/exporter.png')}}" title="Exporter le resultat" width="32" alt="Exporter" class="icone icone2">
+			</a> <br>
+		</div>
+		
+		<center>
+		
+		{% include "ParcPuffinsBagBundle:PuffinsBag:pagination_requ.html.twig" %}
+		
+	 	{% include "ParcPuffinsBagBundle:PuffinsBag:table.html.twig" %}
+		
+		{% include "ParcPuffinsBagBundle:PuffinsBag:pagination_requ.html.twig" %}
+		</center>
+		{% include "ParcPuffinsBagBundle:PuffinsBag:modalform.html.twig" %}
+	{% else %}
+		Il n'y a aucun  Enregistrement correspondant a ces critères, Faire une 
+		<a href="{{ path('parc_puffins_bag_requetes')}}">
+			<span class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" > Nouvelle requete </span> 
+		</a>
+	{% endif %}
+	
+{% endblock %}

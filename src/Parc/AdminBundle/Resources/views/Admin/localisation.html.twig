@@ -1,0 +1,68 @@
+{# src/Sdz/AdminBundle/Resources/views/Admin/.html.twig #}
+
+{% extends "ParcAdminBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent()}}- Localisation
+{% endblock %}
+
+{% block page_titre %}	
+	
+{% endblock %}
+
+{% block liste%}
+
+	<center>
+	<div class="admin_table">
+		<h4> Données de localisation </h4>
+	<table class="records_list">
+        <thead> 
+            <tr>
+                <th>Id</th>
+                <th>Bagueur</th>
+                <th>Localite</th>
+                <th>Lieudit</th>
+                <th>Code Ile</th>
+				<th>Dept.</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for local in locals %}
+            <tr>
+                <td>{{ local.id }}</td>
+                <td>{{ local.bagueur }}</td>
+                <td>{{ local.localite }}</td>
+				<td>{{ local.lieudit }}</td>
+                <td>{{ local.codeIle }}</td>
+				<td>{{ local.dept }}</td>
+                <td>
+                <ul>
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a href="{{ path('parc_admin_local_modifier', { 'id': local.id }) }}">
+								<img title="Modifier" src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="24"/>
+							</a>
+						</li>
+						<li>
+							<a class="supp_enr" id="{{ path('parc_admin_local_supprimer', { 'id': local.id }) }}">
+								<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" width="24"/>
+							</a>
+						</li>
+					{% endif %}               
+                </ul>
+                </td>
+            </tr>
+		{% endfor %}
+        </tbody>
+    </table>
+	</div>
+	</center>
+	
+	<div class="dialog-form" title="Supprimer un enregistrement"> 
+		<p>Voulez-vous vraiment suprimer cette localisation? </p>
+		<form class="modalform" action="" method="post">
+			
+		</form> 
+	</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Requetes
+{% endblock %}
+
+{% block contenu %}
+	{# #}
+		
+	{{ form_start(form) }}
+		{{ form_errors(form)}}
+		
+		<div id="requetes">
+			<span id="leschamps_0">
+				<select onchange="change(this.value,this.id,0)"  name="new_champ_0" id="new_champ_0">
+					<option value="lieudit">Lieudit</option>
+					<option value="date">Annee</option>
+					<option value="action">Action</option>
+					<option value="bague">Bague</option>
+					<option value="colonie">Colonie</option>
+					<option value="secteur">Secteur</option>
+					<option value="terrier">Terrier</option>
+					<option value="ptd">PTD</option>
+					<option value="pr1">PR1</option>
+					<option value="pr2">PR2</option>
+				</select>
+		
+				{{ form_widget(form.champ_0) }}
+			
+			</span>
+			<span id="leschamps_1"><br/>
+				<a href="javascript:create_champ(1)" class="ajout"> Ajouter un champ</a>
+			</span>
+		</div>	
+			<input type="submit" />
+		
+		
+	{{ form_end(form) }}
+	
+{% endblock %}

@@ -1,0 +1,98 @@
+parc_puffins_bag_accueil:
+    pattern: /
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:index }
+
+parc_puffins_bag_liste:
+    path: /liste/{colonne}.{order}/{page}
+    defaults: {_controller: ParcPuffinsBagBundle:PuffinsBag:list, colonne:id, order:DESC, page:1}
+    requirements:
+        page:  \d*
+
+parc_puffins_bag_liste_by:
+    path: /liste/{colonne}.{order}/{page}
+    defaults: {_controller: ParcPuffinsBagBundle:PuffinsBag:listBy, order:ASC, page:1}
+    requirements:
+        page:  \d*
+
+parc_puffins_bag_fiche:
+    path: /fiche/{id}/{page}
+    defaults: {_controller: ParcPuffinsBagBundle:PuffinsBag:voir, page:1}
+    requirements:
+        id:  \d+
+
+parc_puffins_bag_ajouter:
+    pattern:  /ajouter
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:ajouter }		
+
+parc_puffins_bag_modifier:
+    pattern:  /modifier/{id}
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:modifier}
+    requirements:
+        id:  \d+
+
+parc_puffins_bag_supprimer:
+    pattern:  /supprimer/{id}
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:supprimer }
+    requirements:
+        id:  \d+
+
+parc_puffins_bag_exporter:
+    pattern:  /exporter
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:exporter }		
+
+parc_puffins_bag_importer:
+    pattern:  /importer
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:importer }
+
+parc_puffins_bag_importerModif:
+    pattern:  /modifierXls
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:importerModif }
+
+parc_puffins_bag_requetes:
+    pattern:  /requetes
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:requetes }
+
+parc_puffins_bag_resultats:
+    pattern:  /resultats/{champs}/{valeurs}/{colonne}.{order}/{page}
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:resultatsReq,  colonne:date, order:DESC, page:1 }
+    requirements:
+        page:  \d*
+
+parc_puffins_bag_exporter_req:
+    pattern:  /exporterReq/{champs}/{valeurs}
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:exporterReq }
+
+parc_puffins_bag_documents:
+    pattern:  /documents
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:documents}
+    requirements:
+        page:  \d*
+
+login:
+    pattern: /login
+    defaults: { _controller: ParcUserBundle:Security:login }
+
+login_check:
+    pattern: /login_check
+
+logout:
+    pattern: /logout
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting

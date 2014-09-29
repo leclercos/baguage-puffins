@@ -1,0 +1,103 @@
+{# app/Resources/views/main.html.twig #}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8(sans BOM)" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <title>{% block titre %}Baguage Puffin{% endblock %}</title>
+	 
+    {% stylesheets filter='cssrewrite, ?yui_css' '@ParcPuffinsBagBundle/Resources/public/css/*' 
+		'@ParcPuffinsBagBundle/Resources/public/css/redmond/jquery-ui-1.10.4.custom.css' %}
+
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}  
+  </head>
+  
+  <body>
+    <div class="wrapper">		
+		
+		<div id="header" class="clearfix rounded white">
+			<a id="logo" href="{{ path('parc_puffins_bag_accueil') }}"> 
+				<img src="{{asset('bundles/parcpuffinsbag/images/logo_pim.png')}}" width="250px" /> 
+			</a>
+			{% block header %} <img src="{{asset('bundles/parcpuffinsbag/images/fond_'~((random(5)*random(5))%6)~'.jpg')}}" > {% endblock %}
+		</div> 
+		 
+		<div id="nav" class="clearfix white rounded">
+			{% block menu %}
+			{% endblock %}
+		
+		</div>
+		<div id="headermodule" class="clearfix rounded white">
+			
+			{% block deconnexion %}				
+			{% endblock %}
+		</div>
+		
+		<div id="main" class="clearfix white"> 
+			{% block body %}
+			{% endblock %}
+		</div>
+		
+    </div>
+	
+	<div id="body2">
+		<div class="wrapper">
+			<div class="row2module">
+				<a href="http://www.cen-corse.org/"target="_blank">
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_cencorse.jpg')}}" width="100%"/>
+				</a>
+			</div>
+			<div class="row2module">
+				<a href="http://www.calanques-parcnational.fr/"target="_blank">
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_pncalq.jpg')}}" width="100%"/>
+				</a>
+			</div>
+			<div class="row2module">
+				<a href="http://www.initiative-pim.org/"target="_blank">
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_pim2.png')}}" width="100%"/>
+				</a>
+			</div>
+			<div class="row2module">
+				<a href="http://www.conservatoire-du-littoral.fr/"target="_blank">
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_onc.gif')}}" width="100%"/>
+				</a>
+			</div>
+			<div class="row2module">
+				<a href="http://www.portcrosparcnational.fr/"target="_blank">
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_pnpc.jpg')}}" width="100%"/>
+				</a>
+			</div>
+		</div>
+		
+		
+	</div>
+	<footer>
+		{%if not app.user.mdpchanged %}
+			
+			<div id="dialog-form3" title="Changement de mot de passe"> 
+				<p class="validateTips" >Veuillez changer votre Mot de passe avant de continuer</p>
+				<form id="form_mp" class="modalform" method="POST" action="{{ path('parc_admin_password_modifier') }}">
+					<label for="password">Mot de passe</label>
+					<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all">
+					<label for="password2">Repetez le MDP</label>
+					<input type="password" name="password" id="password2" value="" class="text ui-widget-content ui-corner-all"> 
+				</form>
+			</div>
+		
+		{% endif %}
+	
+	</footer>
+  </body>
+	
+	{% javascripts filter='?yui_js' '@ParcPuffinsBagBundle/Resources/public/js/*' %}
+
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}  
+	
+	{% block javascripts2 %}
+		 
+	{% endblock %}
+	
+</html>

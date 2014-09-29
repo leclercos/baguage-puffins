@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Erreur: {{ status_text }}</title>
+    </head>
+    <body>
+		<center>
+        <h2></h2>
+		
+		{% if status_code == 404 %}
+			<div>
+				<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/404.png')}}"/>
+			</div>
+		{% else %}
+			<div>
+				<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/500.png')}}"/>
+			</div>
+		{% endif %}
+		</center>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/importer.html.twig #}
+
+{% form_theme form 'ParcPuffinsBagBundle:Form:field.html.twig' %}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }} : Importer
+{% endblock %}
+
+{% block page_titre %}	
+	Importer des puffins depuis CSV
+{% endblock %}
+
+{% block contenu %}
+	
+	<p> L'import se fait depuis un fichier <strong>CSV</strong> <p>
+	<p> Pas d'espace entre les titres de l'entete (Lieudit,Bg, Action, ...) Par exemple <em>ConDRepr</em> au lieu de <em>Cond Repr</em>
+	{{ form_start(form) }}
+	<span class="error2">{{form_errors(form.fichierCSV)}}</span><br>
+	{{form_label(form.fichierCSV)}} {{form_widget(form.fichierCSV)}}
+	<input type="submit" class="button_submit button_enregistrer button_left" value="Importer"/>
+	{{ form_end(form) }}
+	
+{% endblock %}

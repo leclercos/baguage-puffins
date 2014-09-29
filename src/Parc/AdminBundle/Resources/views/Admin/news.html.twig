@@ -1,0 +1,69 @@
+{# src/Sdz/AdminBundle/Resources/views/Admin/.html.twig #}
+
+{% extends "ParcAdminBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}- News
+{% endblock %}
+
+{% block page_titre %}	
+	
+{% endblock %}
+
+{% block liste %}
+
+	<center>
+	<div class="admin_table">
+	 <h4>Liste des News </h4>
+	<table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th> 
+                <th>Sujet</th>
+                <th>Auteur</th>
+                <th>Date Debut</th>
+                <th>Contenu</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for news in all_news %}
+			
+			<tr>
+                <td>{{ news.id }}</td>
+				<td>{{ news.sujet }}</td>
+                <td>{{ news.auteur}}</td>
+                <td>{{ news.dateDebut|date('d/m/Y')}}</td>
+                <td>{{ news.contenu }}</td>
+                <td>
+                <ul>
+					{% if is_granted('ROLE_ADMIN') %}
+					
+						<li>
+							<a class="news-mod" href="{{ path('parc_admin_news_modifier', { 'id': news.id }) }}">
+								<img title="Modifier" src="{{asset('bundles/parcpuffinsbag/images/modifier.jpg')}}" width="24"/> 
+							</a>
+						</li>
+						<li>
+							<a class="supp_enr" id="{{ path('parc_admin_news_supprimer', { 'id': news.id }) }}">
+								<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/supprimer.jpg')}}" width="24"/>
+							</a>
+						</li>
+					{% endif %}                 
+                </ul>
+                </td>
+            </tr>
+		{% endfor %}
+        </tbody>
+    </table>
+	</div>
+	</center>
+	
+	<div class="dialog-form" title="Supprimer un enregistrement"> 
+		<p>Voulez-vous vraiment suprimer cet news? </p>
+		<form class="modalform" action="" method="post">
+			
+		</form> 
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,66 @@
+{# src/Parc/AdminBundle/Resources/views/layout.html.twig #}
+
+{% extends "::main.html.twig" %}
+
+{% block titre %}
+	{{ parent() }} : Admin
+{% endblock %}
+
+{% block menu %}
+	{% include "ParcPuffinsBagBundle:PuffinsBag:menu.html.twig" %}
+{% endblock %}
+
+
+{% block body %}
+	{% block menu2 %}
+		{% include "ParcAdminBundle:Admin:menu2.html.twig" %}
+	{% endblock %}
+			
+	{# On définit un sous-titre pour chaque page du bundle, par exemple #}
+	{% block page_titre %}	
+	{% endblock %}
+
+	{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+	{% block contenu %}
+		
+		<br>
+		{% block flash %}
+			<center>
+			{% if app.session.flashbag.has('info') %}
+				{% for message in app.session.flashbag.get('info') %}
+					<p class="flash info">{{ message }}</p>
+				{% endfor %}
+			{% endif %}
+
+			{% if app.session.flashbag.has('warning') %}
+				{% for message in app.session.flashbag.get('info') %}
+					<p class="flash warning">{{ message }}</p>
+				{% endfor %}
+			{% endif %}
+				
+			{% if app.session.flashbag.has('error') %}
+				{% for message in app.session.flashbag.get('error') %}
+					<p class="flash error_f">{{ message }}</p>
+				{% endfor %}
+			{% endif %}
+			</center>
+		{% endblock %}
+		<br>
+		
+		{% block form%}
+			{% if form %}
+			<div class="zoneTexte1">
+				<span class="inviteClick1"></span>
+				<div class="Texte1" >
+					{{form(form)}}
+				</div>
+			</div>
+			{% endif %}
+		{% endblock%}
+		
+		{% block liste %}		
+		{% endblock %}
+		
+	{% endblock %}
+
+{% endblock %}

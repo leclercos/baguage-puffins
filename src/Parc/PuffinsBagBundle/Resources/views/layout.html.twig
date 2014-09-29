@@ -1,0 +1,66 @@
+{# src/Parc/PuffinsBagBundle/Resources/views/layout.html.twig #}
+
+{% extends "::main.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block menu %}
+	{% include "ParcPuffinsBagBundle:PuffinsBag:menu.html.twig" %}
+{% endblock %}
+
+{% block deconnexion %}
+	Bonjour {{app.user.nom}} 
+	<a href="{{ path('logout')}}"> 
+		<img src="{{asset('bundles/parcpuffinsbag/images/deconnexion.png')}}" width="32" title="Se deconnecter" class="icone"> 
+	</a> 
+{% endblock %}
+
+{% block body %}
+	<br>
+	<div class="presentation">
+		{# On définit un sous-titre pour chaque page du bundle, par exemple #}
+			{% block page_titre %}		
+		{% endblock %}			
+	</div>
+	
+	
+	
+	<div class="noright">
+		<div id="center"> 
+			{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+			{% block flash %}
+				<center>				
+				{% if app.session.flashbag.has('info') %}
+					{% for message in app.session.flashbag.get('info') %}
+						<p class="flash info">{{ message }}</p>
+					{% endfor %}
+				{% endif %} 
+				
+				{% if app.session.flashbag.has('warning') %}
+					{% for message in app.session.flashbag.get('warning') %}
+						<p class="flash warning">{{ message }}</p>
+					{% endfor %}
+				{% endif %}
+				
+				{% if app.session.flashbag.has('error') %}
+					<ol class="flash error_f">	
+					{% for message in app.session.flashbag.get('error') %}
+						<li>{{ message }}</li>
+					{% endfor %}
+					</ol>
+				{% endif %} 
+				</center>							
+			{% endblock %}
+			{% block contenu %}
+		
+			{% endblock %}
+		</div>
+	</div>
+	
+	{% block news %}
+	 
+	{% endblock %}
+	
+{% endblock %}

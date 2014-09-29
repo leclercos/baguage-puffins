@@ -1,0 +1,22 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Importer des puffins depuis excel
+{% endblock %}
+
+{% block contenu %}
+	
+	<form method="post" {{ form_enctype(form) }}>
+	
+		{{ form_row(form) }}
+
+		<input type="submit" />
+	</form>
+	
+{% endblock %}

@@ -1,0 +1,172 @@
+	
+	{% if order == 'ASC' %} {% set order1 = 'DESC' %} {% endif %}
+	{% if order =='DESC' %} {% set order1 = 'ASC' %} {% endif %}
+	
+	{#<img title="Supprimer" width="10px" src="{{asset('bundles/parcpuffinsbag/images/ordre_'~order~'.png')}}">#}
+	<table class="records_list">
+		{% if champs is not defined %}
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'lieudit', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='lieudit'%} class="actif" {% endif %}
+					> 
+						Lieudit </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'bg', 'order': order1, 'page': page}) }}"
+						{% if colonne=='bg'%} class="actif" {% endif %}
+					>
+						Bagueur </a>
+				</th> 
+                <th> 
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'espece', 'order': order1, 'page': page}) }}"
+						{% if colonne=='espece'%} class="actif" {% endif %}
+					>
+						Espece </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'action', 'order': order1, 'page': page}) }}"
+						{% if colonne=='action'%} class="actif" {% endif %}
+					>
+						Action </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'bague', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='bague'%} class="actif" {% endif %}>
+						Bague</a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'colonie', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='colonie'%} class="actif" {% endif %}
+					> Colonie </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'terrier', 'order': order1, 'order': 'ASC', 'page': page}) }}" 
+						{% if colonne=='terrier'%} class="actif" {% endif %}
+						> Terrier </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'date', 'order': order1, 'page': page}) }}"
+						{% if colonne=='date'%} class="actif" {% endif %}>
+						Date </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'sexe', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='sexe'%} class="actif" {% endif %}>
+						Sexe </a>				
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_liste', { 'colonne': 'age', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='age'%} class="actif" {% endif %}>
+						Age </a>
+				</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+		{% else %}
+		<thead>
+            <tr>
+                <th>N°</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'lieudit', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='lieudit'%} class="actif" {% endif %}
+					> 
+						Lieudit </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'bg', 'order': order1, 'page': page}) }}"
+						{% if colonne=='bg'%} class="actif" {% endif %}
+					>
+						Bagueur </a>
+				</th> 
+                <th> 
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'espece', 'order': order1, 'page': page}) }}"
+						{% if colonne=='espece'%} class="actif" {% endif %}
+					>
+						Espece </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'action', 'order': order1, 'page': page}) }}"
+						{% if colonne=='action'%} class="actif" {% endif %}
+					>
+						Action </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'bague', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='bague'%} class="actif" {% endif %}>
+						Bague</a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'colonie', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='colonie'%} class="actif" {% endif %}
+					> Colonie </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'terrier', 'order': order1, 'order': 'ASC', 'page': page}) }}" 
+						{% if colonne=='terrier'%} class="actif" {% endif %}
+						> Terrier </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'date', 'order': order1, 'page': page}) }}"
+						{% if colonne=='date'%} class="actif" {% endif %}>
+						Date </a>
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'sexe', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='sexe'%} class="actif" {% endif %}>
+						Sexe </a>				
+				</th>
+                <th>
+					<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs, 'colonne': 'age', 'order': order1, 'page': page}) }}" 
+						{% if colonne=='age'%} class="actif" {% endif %}>
+						Age </a>
+				</th> 
+                <th>Actions</th>
+            </tr>
+        </thead>
+		{% endif %}
+        <tbody>
+        {% for puffin in puffins %}
+            <tr class="{% if loop.index is divisibleby(2) %}odd{% else %}even{% endif %}">
+                <td>{{ puffin.id }}</td>
+				<td>
+					{{ puffin.lieudit }}
+				</td>
+				<td>{{ puffin.bg }}</td>
+                <td>{{ puffin.espece }}</td>
+                <td>{{ puffin.action }}</td>
+                <td>{{ puffin.bague }}</td>
+                <td>{{ puffin.colonie }}</td>
+                <td>{{ puffin.terrier }}</td>
+                <td>{% if puffin.date %}{{ puffin.date|date('d/m/Y')}}{% endif %}</td>
+                <td>{{ puffin.sexe }}</td>
+                <td>{{ puffin.age }}</td>
+                <td>
+                <ul>
+					<li > 
+                        <a href="{{ path('parc_puffins_bag_fiche', { 'id': puffin.id, 'page': page }) }}">
+							<img title="Voir details" src="{{asset('bundles/parcpuffinsbag/images/details.png')}}" width="24"/>
+						</a>
+                    </li>
+					{% if is_granted('ROLE_COLLAB') %}
+						<li>
+							<a href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
+								<img title="Modifier" src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="24"/>
+							</a> 
+						</li>
+					{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+						<li>					
+							<a href="#" class="supp_enr" id="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}" >
+								<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" width="24"/>
+							</a>
+						</li>
+					{% endif %}                 
+                </ul>
+                </td>
+            </tr>
+		{% endfor %}
+        </tbody>
+    </table>

@@ -1,0 +1,40 @@
+{# src/Parcdz/PuffinsBagBundle/Resources/views/Puffinsbag/index.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Accueil
+{% endblock %}
+
+{% block contenu %}
+	<p>
+	En ornithologie, de nombreuses recherches sont effectuées à partir d’observations et de comptages.
+	Cependant, ces techniques ne permettent pas de suivre individuellement les oiseaux, ce qui est fondamental 
+	pour connaître notamment longévités et déplacements. Le baguage reste à ce jour la technique la plus éprouvée 
+	pour assurer ce suivi individuel sur un grand nombre d’individus. Baguer consiste à poser sur le tarse ou le tibia
+	des oiseaux une bague métallique numérotée. Sur chaque bague est gravée un numéro unique et les informations 
+	suffisantes pour permettre le rapatriement postal de la bague vers le centre émetteur de celle-ci. 
+	Le baguage, lorsqu’il est assuré par des personnes qualifiées , n’altère en rien le comportement des oiseaux. 
+	De nombreuses études ont montré que ni la survie, ni le succès de reproduction n’étaient affectées par le port d’une bague.
+	</p>
+	
+	<p>
+		Cet outil a été initialement développé par le PN de Port-Cros et adapté aux autres sites méditerranéens par les PIM.
+	</p>
+	
+	{% include "ParcPuffinsBagBundle:PuffinsBag:news.html.twig" %}
+{% endblock %}
+ 
+{% block news %}
+			
+						
+		
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('bundles/parcpuffinsbag/js/code1.js') }}" type="text/javascript"></script>
+{% endblock %}

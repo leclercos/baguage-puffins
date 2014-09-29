@@ -1,0 +1,39 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }} : Documents
+{% endblock %}
+
+{% block page_titre %}	
+	Documents
+{% endblock %}
+
+{% block contenu %}
+	<br>
+	<div class="zoneTexte">
+		<span class="inviteClick"></span>
+		<div class="Texte" >
+			{{form(form)}}
+		</div>
+	</div>
+	<center>
+		Liste des documents
+		<ol class="mouse-active">
+		{% for doc in documents %}
+			<li class="doc">
+				<div class="doc_nom">
+					<img class="icons" src="{{asset('bundles/parcpuffinsbag/images/%s.png'|format(doc.type))}}" width="48">
+					<a href="{{asset('%s/%s.%s'|format(upload_path,doc.id,doc.path))}}" class="doc_nom_lien" target="_self"> 
+					{{doc.nom }}</a>
+				</div>
+				<div>
+					<span> {{ doc.categorie }}</span>
+				</div>
+			</li>
+		{% endfor %}
+
+		</ol>
+	</center>
+{% endblock %}

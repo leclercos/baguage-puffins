@@ -1,0 +1,21 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Enregistrement d'une action
+{% endblock %}
+
+{% block contenu %}
+	
+	{% include "ParcPuffinsBagBundle:PuffinsBag:formulaire.html.twig" %}
+	
+{% endblock %}
+
+{% block javascripts2 %}
+   
+{% endblock %}

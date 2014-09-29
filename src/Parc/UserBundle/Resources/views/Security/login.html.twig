@@ -1,0 +1,41 @@
+{# src/Parc/UserBundle/Resources/views/Security/login.html.twig #}
+
+{#% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }} : Login
+{% endblock %}
+
+{% block page_titre %}	
+	
+{% endblock %#}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>{% block titre %}Page de connexion{% endblock %}</title>
+	
+	<link rel="stylesheet" href="{{ asset('bundles/parcuser/css/style_login.css') }}" type="text/css" />
+</head>
+{% block contenu %}
+	<div id="index">
+        <img src="{{asset('bundles/parcpuffinsbag/images/logo_login.png')}}" alt="logo" id="logo"/>
+        <div id="identif"> identification </div>
+		 
+		<form action="{{ path('login_check') }}" method="post">
+			{% if error %}
+				<div class="alert alert-error">{{ error.message }} <br/><br></div>
+			{% endif %}
+			<label for="username">Login :</label>
+			<input type="text" id="username" name="_username" value="{{last_username }}" /> <br/><br>
+			<label for="password">Mot de passe :</label>
+			<input type="password" id="password" name="_password" />
+			<br/><br/>
+			<input type="submit" value="Connexion" />
+		</form>
+		
+		<h2> © 2014: Base de données développée par les PIM en coopération avec les sites insulaires de Provence et Corse.
+			
+		</h2>
+	</div>
+{% endblock %}

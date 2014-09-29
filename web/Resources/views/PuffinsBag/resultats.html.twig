@@ -1,0 +1,44 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Résultats de la requete : {{nombreTotal}}
+{% endblock %} 
+
+{% block contenu %}
+	{%if nombrePage >0 %}
+		<div>
+			<a href="{{ path('parc_puffins_bag_exporter_req', {'champs': champs,'valeurs': valeurs}) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/exporter.jpg')}}" alt="Ajouter" class="icone"> Exporter
+			</a> <br>
+		</div>
+		
+		{% include "ParcPuffinsBagBundle:PuffinsBag:table.html.twig" %}
+		
+		<div class="pagination">
+		<ul>
+			{# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+			{% if nombrePage >1 %}
+				{% for p in range(1, nombrePage) %}
+				<li{% if p == page %} class="active"{% endif %}>
+					{% block pagination %}
+						<a href="{{ path('parc_puffins_bag_resultats', {'champs': champs,'valeurs': valeurs,'page': p}) }}">{{p}}</a>
+					{% endblock %}
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+		
+	{% else %}
+		Il n'y a aucun puffin correspondants a ces critères, Faire une 
+		<a href="{{ path('parc_puffins_bag_requetes')}}">
+			Nouvelle requete</a>
+	{% endif %}
+	
+{% endblock %}

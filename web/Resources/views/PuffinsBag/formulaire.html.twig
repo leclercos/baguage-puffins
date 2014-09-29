@@ -1,0 +1,125 @@
+  
+{% form_theme form 'ParcPuffinsBagBundle:Form:field.html.twig' %}
+
+<div class="well">
+	{#<form method="post" {{ form_enctype(form) }}>
+		{{ form_widget(form) }}
+		<input type="submit" class="btn btn-primary" />
+	</form>#}
+	
+	<form method="post" {{ form_enctype(form) }}>
+		{#
+		<table id="form_princ">
+			{% for value in form %}
+				<tr>
+					{% if loop.revindex > 5  %}
+						<th> {{ form_label(value)}} * : </th>
+						<td> {{ form_widget(value) }} </td>
+						<td> {{ form_errors(value) }} </td>
+					{% endif %}
+				</tr>
+			{% endfor%}
+		</table>
+		{% for value in form %}
+			{% for i in range(1,4)
+				<div>
+				
+				</div>
+			{% endfor %}
+		{% endfor%}
+		#}
+		
+		<table class="form_1">
+			{{form_row(form.lieudit)}}
+			{{form_row(form.bg)}}
+			{{form_row(form.sg)}}	
+		</table>
+		
+		<table class="form_1">
+			{{form_row(form.espece)}}
+			{{form_row(form.action)}}
+			{{form_row(form.condRepr)}}
+			{{form_row(form.circRepr)}}			
+		</table>
+		 
+		<table class="form_1">
+			{{form_row(form.bague)}}
+			{{form_row(form.colonie)}}
+			{{form_row(form.secteur)}}
+			{{form_row(form.terrier)}}			
+		</table>
+		
+		<table class="form_2">
+			{{form_row(form.heure)}}
+			{{form_row(form.date)}}
+			{{form_row(form.sexe)}}
+			{{form_row(form.age)}}			
+		</table>
+		 
+		{% set form1=form.donneesComplementaires %}
+		
+		<table class="form_1">
+			{{form_row(form1.ptd)}}
+			{{form_row(form1.pr1)}}
+			{{form_row(form1.pr2)}}	
+		</table>
+		
+		<table class="form_1">
+			{{form_row(form1.ma)}}
+			{{form_row(form1.lp)}}
+			{{form_row(form1.bc)}}	
+			{{form_row(form1.bh)}}	
+		</table>
+		
+		<table class="form_1">
+			{{form_row(form1.periodeJN)}}
+			{{form_row(form1.stade)}}
+			{{form_row(form1.lt)}}	
+		</table>
+		
+		<table class="form_2">
+			{{form_row(form1.nature)}}
+			{{form_row(form1.rmqTerrier)}}
+			{{form_row(form1.memo)}}
+		</table>
+		
+		<div class="zoneTexteAfficherMasquer">
+			<span class="inviteClic"></span>
+			<div class="TexteAAfficher" >
+				<table class="form_2">
+						<tr>  </tr>
+					{% for value in form.donneesPNPC %}
+						<tr>						
+							<th> {{ form_label(value) }} : </th>					
+							<td> {{ form_widget(value) }} </td>
+							<td> {{ form_errors(value) }} </td>					
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		
+		<div class="zoneTexteAfficherMasquer2">
+			<span class="inviteClic2"></span>
+			<div class="TexteAAfficher2" >
+				<table id="form_mesure">
+					{% for value in form.autresMesures %}
+						<tr>						
+							<th> {{ form_label(value) }} : </th>					
+							<td> {{ form_widget(value) }} </td>
+							<td> {{ form_errors(value) }} </td>					
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		
+		{{ form_label(form.sauvegarder) }} {{ form_widget(form.sauvegarder) }}
+		
+		<input type="submit" class="btn btn-primary" />
+		<input type="reset" class="btn btn-primary" />
+		
+		{{form_end(form)}}
+		
+	</form>
+</div>

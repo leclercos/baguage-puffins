@@ -1,0 +1,48 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %} 
+	{{ parent() }} : Liste
+{% endblock %}
+
+{% block page_titre %}	
+	Liste des enregistrements ({{ total}})
+{% endblock %}
+
+{% block contenu %}
+
+	<div class="actions">
+		{% if is_granted('ROLE_ADMIN') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_exporter') }}"> 
+				<img src="{{asset('bundles/parcpuffinsbag/images/exporter.png')}}" width="32" title="Exporter la base" class="icone"></a>
+		{% endif %}
+		{% if is_granted('ROLE_COLLAB') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_importer') }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/importer.png')}}" width="32" title="Importer un fichier CSV" class="icone"></a>
+		{% endif %}
+		{% if is_granted('ROLE_COLLAB') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_importerModif') }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/modifierFichier.png')}}" width="32" title="Modifier un fichier CSV" class="icone"></a>
+		{% endif %}
+		{% if is_granted('ROLE_COLLAB') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_ajouter') }}">
+			<img src="{{asset('bundles/parcpuffinsbag/images/ajouter.png')}}" width="32" title="Ajouter un enregistrement" class="icone"></a><br>
+		{% endif %}
+	</div>
+	
+	<center>
+	{% include "ParcPuffinsBagBundle:PuffinsBag:pagination_liste.html.twig" %}
+	 
+	{% include "ParcPuffinsBagBundle:PuffinsBag:table.html.twig" %}
+	
+	{% include "ParcPuffinsBagBundle:PuffinsBag:pagination_liste.html.twig" %}
+	
+	</center>
+	{% include "ParcPuffinsBagBundle:PuffinsBag:modalform.html.twig" %}
+	
+{% endblock %}
+
+{% block javascripts2 %}
+
+{% endblock %}

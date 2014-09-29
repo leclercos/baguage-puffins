@@ -1,0 +1,98 @@
+  
+{% form_theme form 'ParcPuffinsBagBundle:Form:field.html.twig' %}
+
+<div class="well">
+	
+	<form id="formulaire" method="post" {{ form_enctype(form) }}>
+
+		{% set form1=form.donneesComplementaires %}
+		
+		<table class="form_1 haut">
+			{{form_row(form.lieudit)}}
+			{{form_row(form.bg)}}
+			{{form_row(form.sg)}}
+			{{form_row(form.bague)}}
+		</table>
+		
+		<table class="form_1 haut">
+			{{form_row(form.action)}}
+			{{form_row(form.condRepr)}}
+			{{form_row(form.circRepr)}}			
+			{{form_row(form.espece)}}			
+		</table>
+		 
+		<table class="form_1 haut">
+			{{form_row(form.colonie)}}
+			{{form_row(form.secteur)}}
+			{{form_row(form.terrier)}}
+			{{form_row(form1.nature)}}		
+		</table>
+		
+		<table class="form_2 haut">
+			{{form_row(form.heure)}}
+			{{form_row(form.date)}}
+			{{form_row(form.sexe)}}
+			{{form_row(form.age)}}			
+		</table>
+		
+		<table class="form_1 bas">
+			{{form_row(form1.ma)}}
+			{{form_row(form1.lp)}}
+		</table>
+		
+		<table class="form_1 bas">
+			{{form_row(form1.bc)}}	
+			{{form_row(form1.bh)}}	
+		</table>
+		
+		<table class="form_1 bas">
+			{{form_row(form1.rmqTerrier)}}
+			{{form_row(form1.memo)}}
+			
+		</table>
+		
+		<table class="form_2 bas">			
+			{{form_row(form1.ptd)}}
+			{{form_row(form1.pr1)}}
+			{{form_row(form1.pr2)}}
+		</table>
+		
+		{% if form.sauvegarder is defined %} {{ form_row(form.sauvegarder) }} {% endif %}
+		<input type="submit" class="button_submit formulaire_valider" value="Enregistrer" />
+		<input type="reset" class="button_submit formulaire_annuler" value="Annuler"/> 
+		
+		<div class="zoneTexteAfficherMasquer">
+			<span class="inviteClic"></span>
+			<div class="TexteAAfficher" >
+				<table class="form_3">
+						<tr>  </tr>
+					{% for value in form.donneesPNPC %}
+						<tr>						
+							<th> {{ form_label(value) }} : </th>					
+							<td> {{ form_widget(value) }} </td>
+							<td> {{ form_errors(value) }} </td>					
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		
+		<div class="zoneTexteAfficherMasquer2">
+			<span class="inviteClic2"></span>
+			<div class="TexteAAfficher2" >
+				<table class="form_3">
+					{% for value in form.autresMesures %}
+						<tr>						
+							<th> {{ form_label(value) }} : </th>					
+							<td> {{ form_widget(value) }} </td>
+							<td> {{ form_errors(value) }} </td>					
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		
+		{{form_end(form)}}
+		
+	</form>
+</div>

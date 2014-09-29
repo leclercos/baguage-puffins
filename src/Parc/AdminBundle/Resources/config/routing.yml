@@ -1,0 +1,75 @@
+parc_admin_accueil:
+    pattern:  /
+    defaults: { _controller: ParcAdminBundle:Admin:index}
+
+parc_admin_users:
+    pattern: /utilisateurs/
+    defaults: { _controller: ParcAdminBundle:Admin:user}
+
+parc_admin_users_modifier:
+    pattern:  /utilisateurs/modifier/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:userModifier}
+    requirements:
+        id:  \d+
+
+parc_admin_password_modifier:
+    pattern: /modifier
+    defaults: { _controller: ParcAdminBundle:Admin:passwordModifier}
+
+parc_admin_password_reinitialiser:
+    pattern: /reinitialiser/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:passwordReinitialiser}
+
+parc_admin_users_supprimer:
+    pattern:  /utilisateurs/supprimer/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:userSupprimer}
+    requirements:
+        id:  \d+
+
+parc_admin_docs:
+    pattern:  /docs/
+    defaults: { _controller: ParcAdminBundle:Admin:doc}
+
+parc_admin_docs_modifier:
+    pattern:  /docs/modifier/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:docModifier}
+    requirements:
+        id:  \d+
+
+parc_admin_docs_supprimer:
+    pattern:  /docs/supprimer/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:docSupprimer}
+    requirements:
+        id:  \d+
+
+parc_admin_news:
+    pattern:  /news/
+    defaults: { _controller:ParcAdminBundle:Admin:news}
+
+parc_admin_news_modifier:
+    pattern:  news/modifier/{id}
+    defaults: { _controller:ParcAdminBundle:Admin:newsModifier}
+    requirements:
+        id:  \d+
+
+parc_admin_news_supprimer:
+    pattern:  news/supprimer/{id}
+    defaults: { _controller:ParcAdminBundle:Admin:newsSupprimer}
+    requirements:
+        id:  \d+
+
+parc_admin_local:
+    pattern:  /localisation/
+    defaults: { _controller: ParcAdminBundle:Admin:local}
+
+parc_admin_local_modifier:
+    pattern:  localsation/modifier/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:localModifier}
+    requirements:
+        id:  \d+
+
+parc_admin_local_supprimer:
+    pattern:  localisation/supprimer/{id}
+    defaults: { _controller: ParcAdminBundle:Admin:localSupprimer}
+    requirements:
+        id:  \d+

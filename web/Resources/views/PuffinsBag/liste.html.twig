@@ -1,0 +1,91 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Liste des puffins 
+{% endblock %}
+
+{% block contenu %}
+	<div class="actions">
+		{% if is_granted('ROLE_COLLAB') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_exporter') }}"> 
+				<img src="{{asset('bundles/parcpuffinsbag/images/exporter1.ico')}}" width="24" title="Exporter" class="icone"></a>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_importer') }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/importer2.ico')}}" width="24" title="Importer" class="icone"></a>
+		{% endif %}
+		{% if is_granted('ROLE_COLLAB') %}	
+			<a class="lien" href="{{ path('parc_puffins_bag_ajouter') }}">
+			<img src="{{asset('bundles/parcpuffinsbag/images/ajouter.ico')}}" width="24" title="Ajouter" class="icone"></a><br>
+		{% endif %}
+	</div>
+	
+	<div class="pagination">
+		<ul>
+			{# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+			{% if nombrePage >1 %}
+				{% for p in range(1, nombrePage) %}
+				<li{% if p == page %} class="active"{% endif %}>
+					
+						<a href="{{ path('parc_puffins_bag_liste', {'page': p}) }}">{{ p}}</a>
+					
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+	
+	{% include "ParcPuffinsBagBundle:PuffinsBag:table.html.twig" %}
+	 
+	<div class="pagination">
+		<ul>
+			{# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+			{% if nombrePage >1 %}
+				{% for p in range(1, nombrePage) %}
+				<li{% if p == page %} class="active"{% endif %}>
+					{% block pagination %}
+						<a href="{{ path('parc_puffins_bag_liste', {'page': p}) }}">{{ p}}</a>
+					{% endblock %}
+				</li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+	</div>
+ 
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+	  $(function() {
+		$( ".select" ).button({
+			  text: false,
+			  icons: {
+				primary: "ui-icon-gear",
+				secondary: "ui-icon-triangle-1-s"
+			  }
+			})
+			.click(function() {
+			  var menu = $( this ).parent().next().show().position({
+				my: "left top",
+				at: "left bottom",
+				of: this
+			  });
+			  $( document ).one( "click", function() {
+				menu.hide();
+			  });
+			  return false;
+			})
+			.parent()
+			  .buttonset()
+			  .next()
+				.hide()
+				.menu(); 
+	  });
+	</script>
+{% endblock %}

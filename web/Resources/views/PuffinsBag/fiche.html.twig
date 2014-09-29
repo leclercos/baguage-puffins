@@ -1,0 +1,142 @@
+{# src/Sdz/PuffinsBagBundle/Resources/views/Puffinsbag/fiche.html.twig #}
+
+{% extends "ParcPuffinsBagBundle::layout.html.twig" %}
+
+{% block titre %}
+	{{ parent() }}
+{% endblock %}
+
+{% block page_titre %}	
+	Fiche du puffin {{ puffin.id }}
+{% endblock %}
+
+{% block contenu %}
+	
+	<div class="actions">	
+		<a class="lien2" href="{{ path('parc_puffins_bag_liste') }}">	
+			<img src="{{asset('bundles/parcpuffinsbag/images/retour.png')}}" alt="Ajouter" class="icone">Retour 
+		</a>		
+		{% if is_granted('ROLE_COLLAB') %}			
+			<a class="lien2" href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/modifier.gif')}}" alt="Modifier" class="icone"> Modifier
+			</a>			
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}			
+			<a class="lien2" href="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/supprimer.gif')}}" alt="Supprimer" class="icone">supprimer
+			</a>			
+		{% endif %} 
+		</br>
+	</div>
+	
+	{% set crbpo= puffin.donneesLocalisation %}
+	<div id="fiche_crbpo">
+		<table class="table_fiche">
+			<tbody>
+				{% for key, value in crbpo %}
+					{% if not loop.first %}
+					<tr>
+						<th>{{ key|upper }}:</th>
+						<td>{{ value }}</td>
+					</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	<div id="fiche_princ">
+		<table class="table_fiche">
+			<tbody>
+				{% for key, value in puffin %}
+					{% if loop.index > 2 and loop.index < (loop.length-3) %}
+						{% if key == "date" %}
+							<tr>
+								<th>{{ key|capitalize }}:</th>
+								<td>{{ value|date("d-m-Y") }}</td>
+							</tr>
+						{% elseif key == "heure" %}
+							<tr>
+								<th>{{ key|capitalize }}:</th>
+								<td>{{ value|date("h:i:s") }}</td>
+							</tr>
+						{% else %}
+							<tr>
+								<th>{{ key|capitalize }}:</th>
+								<td>{{ value }}</td>
+							</tr>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	{% set complem= puffin.donneesComplementaires %}
+	<div id="fiche_complem">
+		<table class="table_fiche">
+			<tbody>
+				{% for key, value in complem %}
+					{% if loop.index > 1  and loop.revindex > 3 %}
+					<tr>
+						<th>{{ key|capitalize }}:</th>
+						<td>{{ value }}</td>
+					</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	{% if puffin.donneesPNPC %}
+		{% set pnpc= puffin.donneesPNPC %}
+		<div id="fiche_pnpc">
+			<table class="table_fiche">
+				<tbody>
+					{% for key, value in pnpc %}
+						{% if not loop.first %}
+						<tr>
+							<th>{{ key|upper }}:</th>
+							<td>{{ value }}</td>
+						</tr>
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+	
+	{% if puffin.autresMesures %}
+		<div id="fiche_mesure">
+			<table class="table_fiche">
+				<tbody>					
+					{% for key, value in puffin.autresMesures %}					
+						{% if not loop.first %}
+						<tr>					
+							<th>{{key|upper}} </th>
+							<td>{{ value }}</td>
+						</tr>
+						{% endif %}
+					{% endfor %}					
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+
+	<div class="actions">	
+		<a class="lien2" href="{{ path('parc_puffins_bag_liste') }}">	
+			<img src="{{asset('bundles/parcpuffinsbag/images/retour.png')}}" alt="Ajouter" class="icone">Retour 
+		</a>		
+		{% if is_granted('ROLE_COLLAB') %}			
+			<a class="lien2" href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/modifier.gif')}}" alt="Modifier" class="icone"> Modifier
+			</a>			
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}			
+			<a class="lien2" href="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/supprimer.gif')}}" alt="Supprimer" class="icone">supprimer
+			</a>			
+		{% endif %} 
+		</br>
+	</div>
+{% endblock %}

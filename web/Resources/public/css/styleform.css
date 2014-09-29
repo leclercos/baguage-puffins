@@ -1,0 +1,268 @@
+
+#formulaire
+{
+	width: 850px;
+	padding: 5px;
+	margin: auto;
+	text-align: justify;
+}
+
+fieldset
+{
+	padding: 10px;
+}
+input
+{
+
+}
+
+.tab_form
+{
+	margin: 20px;
+}
+
+.tab_form td
+{
+    border: 0px solid gray;
+	text-align:left;
+}
+
+span
+{
+    display: inline-block;
+	width: 10px;
+}
+
+		/**** Localisation  *****/
+#localisation  td
+{
+	margin: 15px;
+	padding: 5px 15px 0 0 ;
+}
+
+
+.incorrect
+{
+	border-color: rgba(191, 68, 68, 0.75);
+}
+
+.correct
+{
+	border-color: rgba(68, 191, 68, 0.75);
+}
+
+#localisation input
+{
+	width: 130px;
+}
+
+#localisation .labcentre+input
+{
+	text-transform: uppercase;
+	width: 50px;
+}
+
+
+.lablocal
+{
+
+}
+
+.lablocal input
+{
+
+}
+
+.labag
+{
+}
+
+.labag input
+{
+
+}
+
+			/****** Donnees générales *****/
+			
+#donnees input
+{
+    width: 60px;
+}
+
+#donnees  td
+{
+	padding: 5px 7px 0 0 ;
+}
+
+#donnees #date, #donnees #bague
+{
+	width: 80px
+}
+
+#donnees #heure
+{
+	width: 32px
+}
+
+#donnees #minute
+{
+	width: 32px;
+}
+
+em
+{
+	font-style: normal;
+}
+
+#bague, #secteur, #espece, #colonie,#dept
+{
+	text-transform: uppercase;
+}
+
+#donnees .incorrect
+{
+	border-color: rgba(191, 68, 68, 0.75);
+}
+
+#donnees .correct
+{
+	border-color: rgba(68, 191, 68, 0.75);
+}
+
+		/*------------Mesures--------------*/
+
+#mesure td
+{
+	margin: 15px;
+	padding: 5px 10px 0 0 ;
+}
+
+#mesure input
+{
+	width: 75px;
+}
+
+td span
+{
+	width:20px;
+}
+
+#mesure label
+{
+	
+}
+
+	 /*------------ Mue -----------------*/
+
+#mue td
+{
+	padding:5px 20px 0 0;
+}
+
+#mue input
+{
+    width: 100px;
+}
+	
+		/*------------ Prelevement -----------------*/
+#prelevement input	 
+{
+	width: 15px;
+}
+
+#prelevement label
+{
+	width: 10px;
+	text-align: right;	
+}
+
+#prelevement td
+{
+	padding: 5px 20px 0 0;
+}
+
+ /*------------ liens -----------------*/
+#liens td
+{
+	padding: 5px 20px 0 0;
+}
+
+#liens label
+{
+	
+}
+
+	/********* Mise en forme des inputs ***/
+	
+span
+{
+	display: inline-block;
+	margin:0;
+	padding: 0;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+.tooltip
+{
+	display: inline-block;
+	margin:0;
+	padding: 0;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+input {
+  padding: 3px;
+  border: 1px solid #CCC;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  outline: none; /* Retire la bordure orange appliquée par certains navigateurs (Chrome notamment) lors du focus des éléments <input> */
+}
+
+input:focus 
+{
+	border-color: rgba(82, 168, 236, 0.5);
+	outline: none;
+	-moz-box-shadow: 0 0 8px rgba(82, 168, 236, 0.5);
+	-webkit-box-shadow: 0 0 8px rgba(82, 168, 236, 0.5);
+	box-shadow: 0 0 8px rgba(82, 168, 236, 0.5);
+}
+.correct1
+{
+	outline: none;
+	border: 1px solid #CCC;
+	padding: 1px;
+}
+
+.correct:focus
+ {
+	 border-color: rgba(68, 191, 68, 0.75);
+	 -moz-box-shadow: 0 0 8px rgba(68, 191, 68, 0.5);
+	 -webkit-box-shadow: 0 0 8px rgba(68, 191, 68, 0.5);
+	 box-shadow: 0 0 8px rgba(68, 191, 68, 0.5);
+} 
+
+.correct1:focus
+ {
+	 border-color: rgba(68, 191, 68, 0.75);
+	 -moz-box-shadow: 0 0 8px rgba(68, 191, 68, 0.5);
+	 -webkit-box-shadow: 0 0 8px rgba(68, 191, 68, 0.5);
+	 box-shadow: 0 0 8px rgba(68, 191, 68, 0.5);
+} 
+.incorrect:focus 
+{
+	border-color: rgba(191, 68, 68, 0.75);
+	-moz-box-shadow: 0 0 8px rgba(191, 68, 68, 0.5);
+	-webkit-box-shadow: 0 0 8px rgba(191, 68, 68, 0.5);
+	box-shadow: 0 0 8px rgba(191, 68, 68, 0.5);
+} 
+
+.val
+{
+	text-decoration: none;
+	color: blue;
+	font-weight: bold;
+	margin: 10px 0 0 200px;
+}

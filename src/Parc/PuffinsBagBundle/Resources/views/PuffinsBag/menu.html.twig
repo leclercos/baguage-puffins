@@ -1,0 +1,11 @@
+<nav id="">
+	<ul>
+		<li><a href="{{ path('parc_puffins_bag_accueil') }}">Accueil</a></li>
+		<li><a href="{{ path('parc_puffins_bag_liste') }}">Baguage</a></li>
+		<li><a href="{{ path('parc_puffins_bag_requetes') }}">Requetes</a></li>
+		<li><a href="{{ path('parc_puffins_bag_documents') }}">Documents</a></li>
+		{% if is_granted('ROLE_ADMIN') %}	
+			<li><a href="{{ path('parc_admin_accueil') }}">Admin</a></li>
+		{% endif %}
+	</ul>
+</nav>

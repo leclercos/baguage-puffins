@@ -1,0 +1,7 @@
+parc_admin:
+    resource: "@ParcAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+parc_puffins_bag:
+    resource: "@ParcPuffinsBagBundle/Resources/config/routing.yml"
+    prefix:   /
