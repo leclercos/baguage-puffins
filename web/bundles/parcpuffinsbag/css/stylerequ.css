@@ -1,0 +1,85 @@
+
+
+form #requetes #leschamps_0
+{
+	display: inline-block;
+	width: 250px; 	
+	vertical-align: top;
+	/*border: 1px solid gray;*/
+	margin: 0px;
+}
+
+form #requetes span
+{
+	display: inline;
+	width: 250px; 
+	margin: 0px;
+}
+
+.liens3
+{
+	text-decoration: none;
+	color: blue;
+	background-color: #f0e9ff;
+	border-radius:5px ;
+	padding-left: 10px;
+	box-shadow: 1px 1px 2px black;
+	border-top: 0px solid black;
+	width: 150px;
+	height: 20px;
+	border: 1px solid gray;
+}
+
+.liens3:hover
+{
+	color:green;
+}
+
+.ajout
+{
+	text-decoration: none;
+	color: green;
+	font-size: 13px;
+}
+
+input[type="text"]
+{
+    width: 120px;
+    padding: 0px; 
+	/*margin: 5px;*/
+	font-size: 14px;
+	padding-left: 3px;
+	font-family: 'Trebuchet MS', 'Book Antiqua';
+}
+
+#champ0
+{
+	margin:0px;
+	padding: 0px;
+}
+
+select
+{
+	margin: 5px;
+	font-family: 'Trebuchet MS', 'serif';
+	font-size: 14px;
+	height:23px;
+}
+
+Input[type=checkbox]
+{
+   width: 15px;
+}
+
+input[type=submit]
+ {
+  width: 100px;
+  padding: 5px;
+  background-color:rgba(0,30,150,0.15);
+  font-weight: bold; 
+  margin-left: 10px;
+  font-size: .9em;
+  font-family: arial;
+  margin: 10px;
+}
+
