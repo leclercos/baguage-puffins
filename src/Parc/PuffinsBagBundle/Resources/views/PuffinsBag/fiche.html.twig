@@ -13,17 +13,18 @@
 {% endblock %}
 
 {% block contenu %}
+	{% set local= puffin.donneesLocalisation %}
 	
 	<div class="actions">	
 		<a class="lien" href="{{ path('parc_puffins_bag_liste',{'page': page }) }}">	
 		<img src="{{asset('bundles/parcpuffinsbag/images/retour.png')}}" width="32" title="Retour à la liste" alt="Retour" class="icone">
 		</a>
-		{% if is_granted('ROLE_ADMIN') %}			
+		{% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and app.user.responsable == local.bagueur) %}			
 			<a class="lien supp_enr" id="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" title="Supprimer" width="32" alt="Supprimer" class="icone">
 			</a>			
 		{% endif %} 
-		{% if is_granted('ROLE_COLLAB') %}	
+		{% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_COLLAB') and app.user.responsable == local.bagueur) %}	
 			<a class="lien" href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="32" title="Modifier" class="icone">
 			</a>
@@ -37,16 +38,23 @@
 		 et Mise à jour le <i> {{cartch.dateMaj|date("d-m-Y")}} </i> par <strong> {{cartch.userMaj}} </strong>
 		{% endif %}
 	 </p>
-	{% set crbpo= puffin.donneesLocalisation %}
+	
 	<div id="fiche_crbpo">
 		<table class="table_fiche">
 			<tbody>
-				{% for key, value in crbpo %}
+				{% for key, value in local %}
 					{% if not loop.first %}
-					<tr>
-						<th>{{ key|upper }}:</th>
-						<td>{{ value }}</td>
-					</tr>
+						{% if key == 'bagueur' %}
+							<tr>
+								<th>{{ key|upper }}:</th>
+								<td>{{ value.nomCRBPO }}</td>
+							</tr>
+						{% else %}
+							<tr>
+								<th>{{ key|upper }}:</th>
+								<td>{{ value }}</td>
+							</tr>
+						{% endif %}
 					{% endif %}
 				{% endfor %}
 			</tbody>
@@ -135,12 +143,12 @@
 				<a class="lien" href="{{ path('parc_puffins_bag_liste') }}">	
 		<img src="{{asset('bundles/parcpuffinsbag/images/retour.png')}}" width="32" title="Retour à la liste" alt="Retour" class="icone">
 		</a>
-		{% if is_granted('ROLE_ADMIN') %}			
+		{% if is_granted('ROLE_ADMIN') and app.user.responsable == local.bagueur %}			
 			<a class="lien supp_enr" id="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" width="32" title="Supprimer" alt="Supprimer" class="icone">
 			</a>			
 		{% endif %} 
-		{% if is_granted('ROLE_COLLAB') %}	
+		{% if is_granted('ROLE_COLLAB') and app.user.responsable == local.bagueur %}	
 			<a class="lien" href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="32" title="Modifier" class="icone">
 			</a>

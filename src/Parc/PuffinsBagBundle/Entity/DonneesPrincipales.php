@@ -27,7 +27,7 @@ class DonneesPrincipales
      *
      * @ORM\Column(name="Lieudit", type="string", length=255)
 	 *
-	 * @Assert\NotBlank(message="La valeur est obligatoire", groups={"importer"})
+	 * @Assert\NotBlank(message="Le lieudit est obligatoire", groups={"importer"})
      */
     private $lieudit;
 	
@@ -36,8 +36,7 @@ class DonneesPrincipales
      *
      * @ORM\Column(name="bg", type="string", length=255, nullable=true)
 	 * 
-	 * @Assert\NotBlank(message="La valeur est obligatoire", groups={"importer"})
-	 * @Assert\Regex(pattern="/[A-Z]+,\s[A-Z][a-z]+/", message="Format incorrect", groups={"importer"})
+	 * @Assert\NotBlank(message="Le nom du bagueur (BG) est obligatoire", groups={"importer"})
      */
     private $bg;
 
@@ -55,7 +54,7 @@ class DonneesPrincipales
      *
      * @ORM\Column(name="espece", type="string", length=6)
 	 *
-	 * @Assert\NotBlank(message="La valeur est obligatoire", groups={"importer"})
+	 * @Assert\NotBlank(message="L'espèce est obligatoire", groups={"importer"})
      */
     private $espece;
 
@@ -64,7 +63,7 @@ class DonneesPrincipales
      *
      * @ORM\Column(name="action", type="string", length=1)
 	 *
-	 * @Assert\NotBlank(message="La valeur est obligatoire", groups={"importer"})
+	 * @Assert\NotBlank(message="L'action est obligatoire", groups={"importer"})
 	 * @Assert\Regex(pattern="/(B|C|R)/", message="L'action doit etre B, C ou R", groups={"importer"})
      */
     private $action;
@@ -88,8 +87,8 @@ class DonneesPrincipales
      *
      * @ORM\Column(name="bague", type="string", length=10)
 	 * 
-	 * @Assert\Regex(pattern="/[A-Z]{2}[0-9]+/", message="Format incorrect", groups={"importer"})
-	 * @Assert\Regex(pattern="/[a-zA-Z0-9]+\s[a-zA-Z0-9]+/", match=false, message="Pas d'espace")
+	 * @Assert\Regex(pattern="/[a-zA-Z0-9]{1,3}[0-9]+/", message="Format bague incorrect", groups={"importer"})
+	 * @Assert\Regex(pattern="/[a-zA-Z0-9]+\s[a-zA-Z0-9]+/", match=false, message="Pas d'espace", groups={"importer"})
      */
     private $bague;
 	
@@ -97,6 +96,8 @@ class DonneesPrincipales
      * @var string
      *
      * @ORM\Column(name="colonie", type="string", length=255, nullable=true)
+	 *
+	 * @Assert\NotBlank(message="La colonie est obligatoire", groups={"importer"})
      */
     private $colonie;
 
@@ -126,7 +127,7 @@ class DonneesPrincipales
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="heure", type="time")
+     * @ORM\Column(name="heure", type="time", nullable=true)
 	 * 
 	 * @Assert\Time()
      */
@@ -193,8 +194,8 @@ class DonneesPrincipales
 	//constructeur
 	public function __construct($args = null)
 	{
-		$this->date = new \Datetime();
-		$this->heure= new \Datetime();
+		//$this->date = new \Datetime();
+		//$this->heure= new \Datetime();
 		//$this->cartouche = new Cartouche()
 	}	
 	/**

@@ -40,12 +40,11 @@ class DonneesLocalisation
     private $codeIle;
 	
 	/**
-     * @var string
-     *
-     * @ORM\Column(name="bagueur", type="string", length=255)
-	 * 
-	 * @Assert\Regex(pattern="/[A-Z]+,\s[A-Z][a-z]+/", message=" Le nom du baguage est de type NOM, Prenom")
-     */
+     * @ORM\ManyToOne(targetEntity="Parc\PuffinsBagBundle\Entity\Responsable")
+	 * @ORM\JoinColumn(nullable=false)
+	 *
+	 * @Assert\Valid()
+	 */
     private $bagueur;
 	
 	 /**
@@ -83,12 +82,15 @@ class DonneesLocalisation
      */
     private $localite;
 	
+	/**
+	* @ORM\OneToMany(targetEntity="Parc\PuffinsBagBundle\Entity\Colonie", mappedBy="lieudit")
+	*/
+	private $colonies;
+	
 	//constructeur
 	public function __construct()
 	{
 		$this->theme="PROG PERS";
-		$this->bageur= "GILLET, Pascal";
-		$this->codeIle="AA0001";
 		$this->centre="FRP";
 		$this->pays="FR";		
 	}
@@ -130,7 +132,7 @@ class DonneesLocalisation
      * Set theme
      *
      * @param string $theme
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setTheme($theme)
     {
@@ -153,7 +155,7 @@ class DonneesLocalisation
      * Set centre
      *
      * @param string $centre
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setCentre($centre)
     {
@@ -176,7 +178,7 @@ class DonneesLocalisation
      * Set pays
      *
      * @param string $pays
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setPays($pays)
     {
@@ -199,7 +201,7 @@ class DonneesLocalisation
      * Set dept
      *
      * @param string $dept
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setDept($dept)
     {
@@ -222,7 +224,7 @@ class DonneesLocalisation
      * Set localite
      *
      * @param string $localite
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setLocalite($localite)
     {
@@ -267,23 +269,56 @@ class DonneesLocalisation
     /**
      * Set bagueur
      *
-     * @param string $bagueur
+     * @param \Parc\PuffinsBagBundle\Entity\Responsable $bagueur
      * @return DonneesLocalisation
      */
-    public function setBagueur($bagueur)
+    public function setBagueur(\Parc\PuffinsBagBundle\Entity\Responsable $bagueur = null)
     {
         $this->bagueur = $bagueur;
     
         return $this;
     }
-
-    /**
+	
+	/**
      * Get bagueur
      *
-     * @return string 
+     * @return \Parc\PuffinsBagBundle\Entity\Responsable 
      */
     public function getBagueur()
     {
         return $this->bagueur;
+    }
+
+    /**
+     * Add colonies
+     *
+     * @param \Parc\PuffinsBagBundle\Entity\Colonie $colonies
+     * @return DonneesLocalisation
+     */
+    public function addColonie(\Parc\PuffinsBagBundle\Entity\Colonie $colonies)
+    {
+        $this->colonies[] = $colonies;
+    
+        return $this;
+    }
+
+    /**
+     * Remove colonies
+     *
+     * @param \Parc\PuffinsBagBundle\Entity\Colonie $colonies
+     */
+    public function removeColonie(\Parc\PuffinsBagBundle\Entity\Colonie $colonies)
+    {
+        $this->colonies->removeElement($colonies);
+    }
+
+    /**
+     * Get colonies
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getColonies()
+    {
+        return $this->colonies;
     }
 }

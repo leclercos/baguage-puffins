@@ -12,7 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class DonneesLocalisationRepository extends EntityRepository
 {
-	public function getLocalisation($lieudit)
+	public function getLocalisation($lieuditId)
+	{
+		$query = $this->createQueryBuilder('loc')
+				->where('loc.id = :id')
+				->setParameter('id', $lieuditId);
+				
+		return $query->getQuery()
+					->getOneOrNullResult();
+	}
+	
+	public function getLocalisationByLieudit($lieudit)
 	{
 		$query = $this->createQueryBuilder('loc')
 				->where('lower(loc.lieudit) = lower(:lieudit)')
@@ -20,5 +30,21 @@ class DonneesLocalisationRepository extends EntityRepository
 				
 		return $query->getQuery()
 					->getOneOrNullResult();
+	}
+	
+	public function getListLieudit($bagueur, $role)
+	{
+		$query = $this->createQueryBuilder('loc');
+		if($role != 'ROLE_SUPER_ADMIN'){
+			if($bagueur != '' && $bagueur != null){
+				$query->where('loc.bagueur = :bagueur')
+					->setParameter('bagueur', $bagueur);
+			}else{
+				$query->where('loc.bagueur = :bagueur')
+					->setParameter('bagueur', 0);
+			}
+		}
+		$query->orderBy('loc.lieudit', 'ASC');				
+		return $query;
 	}
 }

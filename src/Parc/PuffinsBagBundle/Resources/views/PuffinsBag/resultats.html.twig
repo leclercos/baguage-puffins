@@ -13,9 +13,16 @@
 {% block contenu %}
 	{%if nombrePage >0 %}
 		<div>
+		{% if is_granted('ROLE_COLLAB') %}
 			<a class="lien" href="{{ path('parc_puffins_bag_exporter_req', {'champs': champs,'valeurs': valeurs}) }}">
 				<img src="{{asset('bundles/parcpuffinsbag/images/exporter.png')}}" title="Exporter le resultat" width="32" alt="Exporter" class="icone icone2">
+			</a>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a class="lien" href="{{ path('parc_puffins_bag_exporter_req', {'champs': champs,'valeurs': valeurs, 'crbpo':1}) }}">
+				<img src="{{asset('bundles/parcpuffinsbag/images/exporter.png')}}" title="Exporter le resultat CRBPO" width="32" alt="Exporter CRBPO" class="icone icone2">
 			</a> <br>
+		{% endif %}
 		</div>
 		
 		<center>

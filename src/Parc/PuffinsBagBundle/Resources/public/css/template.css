@@ -356,5 +356,11 @@ form
 	display: inline-block;
 	vertical-align: top;
 	width: 19.6%;
-	margin-right: .06%;
+	margin-right: .02%;
+ }
+.row3module{
+	display: inline-block;
+	vertical-align: top;
+	width: 9.8%;
+	margin-right: .02%;
  }

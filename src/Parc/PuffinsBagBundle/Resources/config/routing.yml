@@ -59,8 +59,10 @@ parc_puffins_bag_resultats:
         page:  \d*
 
 parc_puffins_bag_exporter_req:
-    pattern:  /exporterReq/{champs}/{valeurs}
-    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:exporterReq }
+    pattern:  /exporterReq/{champs}/{valeurs}/{crbpo}
+    defaults: { _controller: ParcPuffinsBagBundle:PuffinsBag:exporterReq, crbpo:0}
+    requirements:
+        crbpo:  \d*
 
 parc_puffins_bag_documents:
     pattern:  /documents

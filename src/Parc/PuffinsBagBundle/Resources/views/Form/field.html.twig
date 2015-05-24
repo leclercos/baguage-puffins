@@ -15,7 +15,7 @@
 {% endblock %#}
 
 {# fields_errors.html.twig #}
-	{% block form_errors %}
+{% block form_errors %}
 	{% spaceless %}
 		{% if errors|length > 0 %}
 			
@@ -39,11 +39,18 @@
 			</td>
 		</tr>
 		<tr class="next-input"> 
-			<td colspan="2">{{ form_widget(form) }}
-				{% if help is defined and help is not null %}
-					<span class="help" title="{{help}}"><img src={{asset('bundles/parcpuffinsbag/images/aide.png')}} width="16"/></span>
+			<td colspan="2">{{ form_widget(form) }}				
+				{% if image_path is defined and image_path is not null %}
+					<span class="help_img"><img src={{asset('bundles/parcpuffinsbag/images/aide.png')}} width="16"/>
+						<span> {% if help is defined and help is not null %} {{help}} {% endif %}
+							<img src={{asset('bundles/parcpuffinsbag/images/aide.png')}} width="250" style="float:right;"/> 
+						</span>
+					</span>	
+				{% else %}
+					{% if help is defined and help is not null %}
+						<span class="help" title="{{help}}"><img src={{asset('bundles/parcpuffinsbag/images/aide.png')}} width="16"/></span>
+					{% endif %}
 				{% endif %}
 			</td>
 		</tr>
-		
 {% endblock form_row %}

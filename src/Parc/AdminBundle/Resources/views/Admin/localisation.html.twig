@@ -1,5 +1,7 @@
 {# src/Sdz/AdminBundle/Resources/views/Admin/.html.twig #}
 
+{% form_theme form 'ParcPuffinsBagBundle:Form:field.html.twig' %}
+
 {% extends "ParcAdminBundle::layout.html.twig" %}
 
 {% block titre %}
@@ -9,6 +11,21 @@
 {% block page_titre %}	
 	
 {% endblock %}
+
+{% block form%}
+	{% if form %}
+	<div class="zoneTexte1">
+		<span class="inviteClick1"></span>
+		<div class="Texte1" >
+			{{form_start(form)}}
+			{{form_row(form.lieudit)}}<br>
+			{{form_row(form.codeIle)}}<br>
+			{{form_row(form.bagueur.lieudit)}}<br>
+			{{form_end(form)}}
+		</div>
+	</div>
+	{% endif %}
+{% endblock%}
 
 {% block liste%}
 
@@ -31,7 +48,7 @@
         {% for local in locals %}
             <tr>
                 <td>{{ local.id }}</td>
-                <td>{{ local.bagueur }}</td>
+                <td>{{ local.bagueur.nomCRBPO }}</td>
                 <td>{{ local.localite }}</td>
 				<td>{{ local.lieudit }}</td>
                 <td>{{ local.codeIle }}</td>

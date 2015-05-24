@@ -150,14 +150,14 @@
 							<img title="Voir details" src="{{asset('bundles/parcpuffinsbag/images/details.png')}}" width="24"/>
 						</a>
                     </li>
-					{% if is_granted('ROLE_COLLAB') %}
+					{% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_COLLAB') and app.user.responsable == puffin.donneesLocalisation.bagueur) %}
 						<li>
 							<a href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
 								<img title="Modifier" src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="24"/>
 							</a> 
 						</li>
 					{% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and app.user.responsable == puffin.donneesLocalisation.bagueur) %}
 						<li>					
 							<a href="#" class="supp_enr" id="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}" >
 								<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" width="24"/>

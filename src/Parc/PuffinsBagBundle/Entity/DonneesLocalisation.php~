@@ -9,7 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * DonneesLocalisation
  *
  * @ORM\Table()
- * @ORM\Entity
+ *
+ * @ORM\Entity(repositoryClass="Parc\PuffinsBagBundle\Entity\DonneesLocalisationRepository")
  */
 class DonneesLocalisation
 {
@@ -39,31 +40,12 @@ class DonneesLocalisation
     private $codeIle;
 	
 	/**
-     * @var string
-     *
-     * @ORM\Column(name="bagueur", type="string", length=255)
-	 * 
-	 * @Assert\Regex(pattern="/[A-Z]+,\s[A-Z][a-z]+/", message=" Le nom du baguage est de type NOM, Prenom")
-     */
+     * @ORM\ManyToOne(targetEntity="Parc\PuffinsBagBundle\Entity\Responsable")
+	 * @ORM\JoinColumn(nullable=false)
+	 *
+	 * @Assert\Valid()
+	 */
     private $bagueur;
-	
-	/**
-     * @var string
-     *
-     * @ORM\Column(name="bg", type="string", length=255, nullable=true)
-	 * 
-	 * @Assert\Regex(pattern="/[A-Z]+,\s[A-Z][a-z]+/", message=" Le nom du bagueur est de type (NOM, Prenom)")
-     */
-    private $bg;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sg", type="string", length=255, nullable=true)
-	 * 
-	 * @Assert\Regex(pattern="/[A-Z]+,\s[A-Z][a-z]+/", message=" Le nom du bagueur est de type (NOM, Prenom)")
-     */
-    private $sg;
 	
 	 /**
      * @var string
@@ -99,6 +81,19 @@ class DonneesLocalisation
      * @ORM\Column(name="localite", type="string", length=30, nullable=true)
      */
     private $localite;
+	
+	/**
+	* @ORM\OneToMany(targetEntity="Parc\PuffinsBagBundle\Entity\Colonie", mappedBy="lieudit")
+	*/
+	private $colonies;
+	
+	//constructeur
+	public function __construct()
+	{
+		$this->theme="PROG PERS";
+		$this->centre="FRP";
+		$this->pays="FR";		
+	}
 	
     /**
      * Get id
@@ -137,7 +132,7 @@ class DonneesLocalisation
      * Set theme
      *
      * @param string $theme
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setTheme($theme)
     {
@@ -160,7 +155,7 @@ class DonneesLocalisation
      * Set centre
      *
      * @param string $centre
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setCentre($centre)
     {
@@ -183,7 +178,7 @@ class DonneesLocalisation
      * Set pays
      *
      * @param string $pays
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setPays($pays)
     {
@@ -206,7 +201,7 @@ class DonneesLocalisation
      * Set dept
      *
      * @param string $dept
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setDept($dept)
     {
@@ -229,7 +224,7 @@ class DonneesLocalisation
      * Set localite
      *
      * @param string $localite
-     * @return DonneesCRBPO
+     * @return DonneesLocalisation
      */
     public function setLocalite($localite)
     {
@@ -249,48 +244,48 @@ class DonneesLocalisation
     }
 
     /**
-     * Set bg
+     * Set codeIle
      *
-     * @param string $bg
-     * @return DonneesCRBPO
+     * @param string $codeIle
+     * @return DonneesLocalisation
      */
-    public function setBg($bg)
+    public function setCodeIle($codeIle)
     {
-        $this->bg = $bg;
+        $this->codeIle = $codeIle;
     
         return $this;
     }
 
     /**
-     * Get bg
+     * Get codeIle
      *
      * @return string 
      */
-    public function getBg()
+    public function getCodeIle()
     {
-        return $this->bg;
+        return $this->codeIle;
     }
 
     /**
-     * Set sg
+     * Set bagueur
      *
-     * @param string $sg
-     * @return DonneesCRBPO
+     * @param \Parc\PuffinsBagBundle\Entity\Responsable $bagueur
+     * @return DonneesLocalisation
      */
-    public function setSg($sg)
+    public function setBagueur(\Parc\PuffinsBagBundle\Entity\Responsable $bagueur = null)
     {
-        $this->sg = $sg;
+        $this->bagueur = $bagueur;
     
         return $this;
     }
-
-    /**
-     * Get sg
+	
+	/**
+     * Get bagueur
      *
-     * @return string 
+     * @return \Parc\PuffinsBagBundle\Entity\Responsable 
      */
-    public function getSg()
+    public function getBagueur()
     {
-        return $this->sg;
+        return $this->bagueur;
     }
 }

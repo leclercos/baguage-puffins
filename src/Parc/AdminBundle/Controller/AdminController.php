@@ -55,6 +55,7 @@ class AdminController extends Controller
 			$user->setEnabled(true);
 			$roles = array($user->getRoleStr());
 			$user->setRoles($roles);
+			$user->setResponsable($this->getUser()->getResponsable());
 			//if ($form->isValid()) 
 			{				
 				$em->persist($user);
@@ -334,7 +335,7 @@ class AdminController extends Controller
 		}
 		
 		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesLocalisation');
-		$locals=$rpstr->findBy(array(),array('bagueur' => 'asc','localite' => 'asc','lieudit' => 'asc',));
+		$locals=$rpstr->findBy(array(),array('localite' => 'asc','lieudit' => 'asc',));
 		
 		return $this->render('ParcAdminBundle:Admin:localisation.html.twig', array(
 			'name'  => 'Leclerc',

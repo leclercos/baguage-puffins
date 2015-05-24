@@ -19,7 +19,7 @@
 		
 		<div id="header" class="clearfix rounded white">
 			<a id="logo" href="{{ path('parc_puffins_bag_accueil') }}"> 
-				<img src="{{asset('bundles/parcpuffinsbag/images/logo_pim.png')}}" width="250px" /> 
+				<img src="{{asset('bundles/parcpuffinsbag/images/logo_pim.png')}}" width="20%" /> 
 			</a>
 			{% block header %} <img src="{{asset('bundles/parcpuffinsbag/images/fond_'~((random(5)*random(5))%6)~'.jpg')}}" > {% endblock %}
 		</div> 
@@ -54,14 +54,19 @@
 					<img src="{{asset('bundles/parcpuffinsbag/images/logo_pncalq.jpg')}}" width="100%"/>
 				</a>
 			</div>
-			<div class="row2module">
+			<div class="row3module">
 				<a href="http://www.initiative-pim.org/"target="_blank">
 					<img src="{{asset('bundles/parcpuffinsbag/images/logo_pim2.png')}}" width="100%"/>
 				</a>
 			</div>
+			<div class="row3module">
+				<a href="http://www.conservatoire-du-littoral.fr/"target="_blank">
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_cons.png')}}" width="100%"/>
+				</a>
+			</div>
 			<div class="row2module">
 				<a href="http://www.conservatoire-du-littoral.fr/"target="_blank">
-					<img src="{{asset('bundles/parcpuffinsbag/images/logo_onc.gif')}}" width="100%"/>
+					<img src="{{asset('bundles/parcpuffinsbag/images/logo_oec.jpg')}}" width="100%"/>
 				</a>
 			</div>
 			<div class="row2module">

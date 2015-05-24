@@ -8,21 +8,21 @@
 		{% set form1=form.donneesComplementaires %}
 		
 		<table class="form_1 haut">
-			{{form_row(form.lieudit)}}
+			{{form_row(form.lieudit, { 'attr': {'class': 'lieudit_event'} }) }}
 			{{form_row(form.bg)}}
 			{{form_row(form.sg)}}
 			{{form_row(form.bague)}}
 		</table>
 		
 		<table class="form_1 haut">
-			{{form_row(form.action)}}
-			{{form_row(form.condRepr)}}
-			{{form_row(form.circRepr)}}			
+			{{form_row(form.action, { 'attr': {'class': 'action_event'} }) }}
+			{{form_row(form.condRepr, { 'attr': {'class': 'condRepr_event'} })}}
+			{{form_row(form.circRepr, { 'attr': {'class': 'circRepr_event'} })}}			
 			{{form_row(form.espece)}}			
 		</table>
 		 
 		<table class="form_1 haut">
-			{{form_row(form.colonie)}}
+			{{form_row(form.colonie, { 'attr': {'class': 'colonie_event'} })}}
 			{{form_row(form.secteur)}}
 			{{form_row(form.terrier)}}
 			{{form_row(form1.nature)}}		
@@ -32,7 +32,7 @@
 			{{form_row(form.heure)}}
 			{{form_row(form.date)}}
 			{{form_row(form.sexe)}}
-			{{form_row(form.age)}}			
+			{{form_row(form.age, { 'attr': {'class': 'age_event'} })}}			
 		</table>
 		
 		<table class="form_1 bas">
@@ -41,8 +41,8 @@
 		</table>
 		
 		<table class="form_1 bas">
-			{{form_row(form1.bc)}}	
-			{{form_row(form1.bh)}}	
+			{{form_row(form1.bp)}}	
+			{{form_row(form1.eb)}}	
 		</table>
 		
 		<table class="form_1 bas">
@@ -53,8 +53,8 @@
 		
 		<table class="form_2 bas">			
 			{{form_row(form1.ptd)}}
-			{{form_row(form1.pr1)}}
-			{{form_row(form1.pr2)}}
+			{{form_row(form1.pr1, {'attr': {'class': 'pr1_event'}} )}}
+			{{form_row(form1.pr2, {'attr': {'class': 'pr2_event'}} )}}
 		</table>
 		
 		{% if form.sauvegarder is defined %} {{ form_row(form.sauvegarder) }} {% endif %}
@@ -96,3 +96,69 @@
 		
 	</form>
 </div>
+
+<script>
+var $lieudit = $('.lieudit_event');
+// When lieudit gets selected ...
+$lieudit.change(function() {
+  // ... retrieve the corresponding form.
+  var $form = $(this).closest('form');
+  // Simulate form data, but only include the selected lieudit value.
+  var data = {};
+  data[$lieudit.attr('name')] = $lieudit.val();
+  // Submit data via AJAX to the form's action path.
+  $.ajax({
+    url : $form.attr('action'),
+    type: $form.attr('method'),
+    data : data,
+    success: function(html) {
+      // Replace current position field ...
+      $('.colonie_event').replaceWith(
+        // ... with the returned one from the AJAX response.
+        $(html).find('.colonie_event')
+      );
+      // Position field now displays the appropriate positions.
+    }
+  });
+});
+
+var $action = $('.action_event');
+$action.change(function() {
+  var $form = $(this).closest('form');
+  var data = {};
+  data[$action.attr('name')] = $action.val();
+  $.ajax({
+    url : $form.attr('action'),
+    type: $form.attr('method'),
+    data : data,
+    success: function(html) {
+      $('.condRepr_event').replaceWith(
+        $(html).find('.condRepr_event')
+      );
+	  $('.circRepr_event').replaceWith(
+        $(html).find('.circRepr_event')
+      );
+    }
+  });
+});
+
+var $age = $('.age_event');
+$age.change(function() {
+  var $form = $(this).closest('form');
+  var data = {};
+  data[$age.attr('name')] = $age.val();
+  $.ajax({
+    url : $form.attr('action'),
+    type: $form.attr('method'),
+    data : data,
+    success: function(html) {
+      $('.pr1_event').replaceWith(
+        $(html).find('.pr1_event')
+      );
+	  $('.pr2_event').replaceWith(
+        $(html).find('.pr2_event')
+      );
+    }
+  });
+});
+</script>

@@ -42,8 +42,10 @@ class DonneesPrincipalesRepository extends EntityRepository
 				->addSelect('ca')
 				->leftJoin('pr.donneesComplementaires', 'cp')
 				->addSelect('cp')
-				->leftJoin('pr.donneesLocalisation', 'cr')
-				->addSelect('cr')
+				->leftJoin('pr.donneesLocalisation', 'lo')
+				->addSelect('lo')
+				->leftJoin('lo.bagueur', 'ba')
+				->addSelect('ba')
 				->leftJoin('pr.donneesPNPC', 'pn')
 				->addSelect('pn')
 				->leftJoin('pr.autresMesures', 'am')
@@ -55,28 +57,34 @@ class DonneesPrincipalesRepository extends EntityRepository
 					->getArrayResult();
 	}
 	
-	public function allPuffinsQuerry()
-	{
+	private function allPuffinsQuerry($crbpo)
+	{	
 		$query = $this->createQueryBuilder('pr')
-				->select('pr.id, pr.lieudit, pr.bg, pr.sg, pr.espece, pr.action, pr.condRepr, pr.circRepr, pr.bague,
-						 pr.colonie, pr.secteur, pr.terrier, pr.date, pr.heure, pr.sexe, pr.age')
-				->leftJoin('pr.donneesComplementaires', 'cp')
-				->addSelect('cp.nature, cp.rmqTerrier, cp.periodeJN, cp.stade, cp.lp, cp.memo, 
-							cp.bc, cp.bh, cp.lt, cp.ma')
-				->leftJoin('pr.donneesLocalisation', 'lo')
-				->addSelect('lo.bagueur, lo.codeIle, lo.theme, lo.centre, lo.pays, lo.dept, lo.localite')
-				->leftJoin('pr.donneesPNPC', 'pn')
-				->addSelect('pn.primaire, pn.secondaire, pn.rectrice, pn.couV, 
-							pn.couD, pn.rg, pn.pl, pn.pr, pn.asg')
-				->leftJoin('pr.autresMesures', 'am')
-				->addSelect('am.champ1, am.champ2, am.champ3, am.champ4, am.mesure1, am.mesure2, am.mesure3, am.mesure4');
-				
+					->leftJoin('pr.donneesLocalisation', 'lo')
+					->leftJoin('lo.bagueur', 'ba')
+					->leftJoin('pr.donneesComplementaires', 'cp');
+		if($crbpo){
+			$query = $query->select("lo.theme, lo.centre, ba.nomCRBPO as bagueur,
+							pr.bg, pr.bague, pr.action, pr.espece, pr.date, pr.heure,pr.sexe, pr.age,
+							 lo.pays, lo.dept, lo.localite, pr.lieudit, cp.bp, cp.eb, cp.lt, cp.ma,
+							 cp.memo, pr.condRepr, pr.circRepr, cp.cs, cp.nf, cp.ptd as partenaire");  		
+		}else{
+			//$query = $this->createQueryBuilder('pr')  CONCAT(cp.pr1, " et ", cp.pr2)
+			$query = $query->leftJoin('pr.donneesPNPC', 'pn')
+							->leftJoin('pr.autresMesures', 'am')			
+				->select('lo.codeIle, ba.nomCRBPO as bagueur, 
+						 pr.lieudit, pr.bg, pr.sg, pr.espece, pr.action, pr.condRepr, pr.circRepr, pr.bague,
+						 pr.date, pr.heure, pr.sexe, pr.age, pr.colonie, pr.secteur, pr.terrier, cp.bp, cp.eb, cp.lt, cp.ma, 
+						 cp.nature, cp.rmqTerrier, cp.periodeJN, lo.theme, lo.centre, lo.pays, lo.dept, lo.localite, cp.stade, cp.lp, cp.memo,
+						 pn.primaire, pn.secondaire, pn.rectrice, pn.couV, pn.couD, pn.rg, pn.pl, pn.pr, pn.asg,
+						 am.champ1, am.champ2, am.champ3, am.champ4, am.mesure1, am.mesure2, am.mesure3, am.mesure4');
+		}
 		return $query;
 	}
 	
 	public function getAllPuffins()
 	{
-		$query = $this->allPuffinsQuerry();
+		$query = $this->allPuffinsQuerry(true);
 				
 		return $query->getQuery()
 					->getArrayResult();
@@ -84,31 +92,65 @@ class DonneesPrincipalesRepository extends EntityRepository
 	
 	public function getAllPuffins2()
 	{
-		$query = $this->allPuffinsQuerry();
+		$query = $this->allPuffinsQuerry(true);
 					
 		return $query->getQuery()
 					 ->iterate();
 	}
 	
-	public function findPuffinsQuerry($query, $champs, $valeurs)
+	private function findPuffinsQuerry($query, $champs, $valeurs_arr)
 	{
-		$nb=count($champs);
+		$i = 0;
+		$params = $this->combinerCriteresValeurs($champs,$valeurs_arr);
 		
-		for($i=0;$i<$nb;$i++)
+		foreach($params as $critere => $valeurs)
 		{
-			if ($champs[$i]=='date')
-			{
-				$dated=new \DateTime('01/01/'.$valeurs[$i].'');
-				$datef=new \DateTime('12/31/'.$valeurs[$i].'');
+			$nb = count($valeurs);
+			if ($critere === 'date'){
+				$dated=new \DateTime('01/01/'.$valeurs[0].'');
+				$datef=new \DateTime('12/31/'.$valeurs[0].'');
 				
-				$query->andwhere('pr.'.$champs[$i].' BETWEEN :valeur'.$i.' and :valeur2')
-					  ->setParameter('valeur'.$i,$dated)
-					  ->setParameter('valeur2',$datef);
+				$query->andwhere('pr.date BETWEEN :dated and :datef')
+					  ->setParameter('dated',$dated)
+					  ->setParameter('datef',$datef);
+			}else if($critere === 'bague'){				
+				$qu_str = 'lower(pr.bague) like lower(:valeur'.$i.') OR lower(cp.pr1) like lower(:valeur'.$i.') 
+						  OR lower(cp.pr2) like lower(:valeur'.$i.') OR lower(cp.ptd) like lower(:valeur'.$i.')';
+
+				//$qu_str = $qu_str1;
+				for($j=1;$j<$nb;$j++){
+					$i++;
+					$qu_str = $qu_str .' OR lower(pr.bague) like lower(:valeur'.$i.') OR lower(cp.pr1) like lower(:valeur'.$i.') 
+						  OR lower(cp.pr2) like lower(:valeur'.$i.') OR lower(cp.ptd) like lower(:valeur'.$i.')';
+					$query ->setParameter('valeur'.$i,'%'.$valeurs[$j].'%');
+				}
+				$query->andwhere($qu_str)
+					 ->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
+				
+			}else if($critere === 'bagueur'){					  
+				$qu_str = 'lower(ba.nomCRBPO) like lower(:valeur'.$i.')';
+				
+				$nb = count($valeurs);
+				for($j=1;$j<$nb;$j++){
+					$i++;
+					$qu_str = $qu_str .' OR lower(ba.nomCRBPO) like lower(:valeur'.$i.')';
+					$query ->setParameter('valeur'.$i,'%'.$valeurs[$j].'%');
+				}
+				$query->andwhere($qu_str)
+					  ->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
+				
+			}else{
+				$qu_str = 'lower(pr.'.$critere.') like lower(:valeur'.$i.')';
+				
+				for($j=1;$j<$nb;$j++){
+					$i++;
+					$qu_str = $qu_str .' OR lower(pr.'.$critere.') like lower(:valeur'.$i.')';
+					$query ->setParameter('valeur'.$i,'%'.$valeurs[$j].'%');
+				}
+				$query->andwhere($qu_str)
+					  ->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
 			}
-			else{
-				$query->andwhere('lower(pr.'.$champs[$i].') like lower(:valeur'.$i.')')
-					  ->setParameter('valeur'.$i,'%'.$valeurs[$i].'%');
-			}
+			$i++;
 		}
 		
 		return $query;
@@ -116,7 +158,13 @@ class DonneesPrincipalesRepository extends EntityRepository
 	
 	public function findPuffinsBy($champs, $valeurs, $nombreParPage, $colonne_tri, $order, $page)
 	{
-		$query = $this->createQueryBuilder('pr');
+		$query = $this->createQueryBuilder('pr')
+					->leftJoin('pr.donneesComplementaires', 'cp')
+					->addSelect('cp')
+					->leftJoin('pr.donneesLocalisation', 'lo')
+					->addSelect('lo')
+					->leftJoin('lo.bagueur', 'ba')
+					->addSelect('ba');
 		
 		$query= $this->findPuffinsQuerry($query, $champs, $valeurs);
 		
@@ -129,13 +177,30 @@ class DonneesPrincipalesRepository extends EntityRepository
 		return new Paginator($query);
 	}
 	
-	public function findAllPuffinsBy($champs, $valeurs)
+	public function findAllPuffinsBy($champs, $valeurs, $crbpo)
 	{
-		$query = $this->allPuffinsQuerry();
+		$query = $this->allPuffinsQuerry($crbpo);
 		
 		$query=$this->findPuffinsQuerry($query, $champs, $valeurs);
 				
 		return $query->getQuery()
 					->getArrayResult();
+	}
+	
+	private function combinerCriteresValeurs($champs_arr, $valeurs_arr){
+	
+		$criteres = array_unique($champs_arr);		
+		$criteres_valeurs = array();
+		foreach($criteres as $crit){
+			$nb = count($champs_arr);
+			$valeurs  = array();
+			for ($i=0;$i<$nb;$i++){
+				if($crit === $champs_arr[$i]){
+					$valeurs[] = $valeurs_arr[$i];
+				}
+			}
+			$criteres_valeurs[$crit] = $valeurs;
+		}
+		return $criteres_valeurs;
 	}
 }

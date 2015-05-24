@@ -1,7 +1,7 @@
 <?php
 namespace Parc\UserBundle\Entity;
 
-use FOS\UserBundle\Entity\User as BaseUser;
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +40,12 @@ use Doctrine\ORM\Mapping as ORM;
 		 * @ORM\Column(name="mdpChanged", type="boolean", nullable=true)
 		 */
 		private $mdpChanged;
+		
+		/**
+		 * @ORM\ManyToOne(targetEntity="Parc\PuffinsBagBundle\Entity\Responsable")
+		 * @ORM\JoinColumn(nullable=false)
+		 */
+		private $responsable;
 		
 		public function __construct()
 		{
@@ -137,5 +143,38 @@ use Doctrine\ORM\Mapping as ORM;
         $this->mdpChanged = (Boolean) $boolean;
 
         return $this;
+    }
+
+    /**
+     * Get mdpChanged
+     *
+     * @return boolean 
+     */
+    public function getMdpChanged()
+    {
+        return $this->mdpChanged;
+    }
+
+    /**
+     * Set responsable
+     *
+     * @param \Parc\PuffinsBagBundle\Entity\Responsable $responsable
+     * @return Users
+     */
+    public function setResponsable(\Parc\PuffinsBagBundle\Entity\Responsable $responsable)
+    {
+        $this->responsable = $responsable;
+    
+        return $this;
+    }
+
+    /**
+     * Get responsable
+     *
+     * @return \Parc\PuffinsBagBundle\Entity\Responsable 
+     */
+    public function getResponsable()
+    {
+        return $this->responsable;
     }
 }

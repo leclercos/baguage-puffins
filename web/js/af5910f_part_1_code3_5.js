@@ -22,7 +22,7 @@ $(function() {
 $(function() {
     $( ".info" )
       .ready(function() {
-		setTimeout( "jQuery('.info').hide('slide',1000);",5000 );
+		setTimeout( "jQuery('.info').hide('slide',1500);",8000 );
         //$(".flash").hide('slide',5000);
 	});
 });
@@ -30,7 +30,7 @@ $(function() {
 $(function() {
 	$( ".warning" )
       .ready(function() {
-		setTimeout( "jQuery('.warning').hide('slide',5000);",10000 );
+		setTimeout( "jQuery('.warning').hide('slide',1000);",5000 );
         //$(".flash").hide('slide',5000);
       });
 });

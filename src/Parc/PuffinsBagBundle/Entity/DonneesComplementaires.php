@@ -97,16 +97,16 @@ class DonneesComplementaires
     /**
      * @var float
      *
-     * @ORM\Column(name="bc", type="float", nullable=true)
+     * @ORM\Column(name="bp", type="float", nullable=true)
      */
-    private $bc;
+    private $bp;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="bh", type="float", nullable=true)
+     * @ORM\Column(name="eb", type="float", nullable=true)
      */
-    private $bh;
+    private $eb;
 
     /**
      * @var float
@@ -157,9 +157,9 @@ class DonneesComplementaires
 			if(array_key_exists('pr1',$args)) 		$this->pr1			= 		 $args['pr1'];
 			if(array_key_exists('pr2',$args)) 		$this->pr2			= 		 $args['pr2'];
 			if(array_key_exists('memo',$args)) 		$this->memo			= 		 $args['memo'];
-			if(array_key_exists('bc',$args)) 		$this->bc			= (double)str_replace(',','.',$args['bc']);
+			if(array_key_exists('bp',$args)) 		$this->bp			= (double)str_replace(',','.',$args['bp']);
 			if(array_key_exists('lp',$args)) 		$this->lp			= (double)str_replace(',','.',$args['lp']);
-			if(array_key_exists('bh',$args)) 		$this->bh			= (double)str_replace(',','.',$args['bh']);
+			if(array_key_exists('eb',$args)) 		$this->eb			= (double)str_replace(',','.',$args['eb']);
 			if(array_key_exists('lt',$args)) 		$this->lt			= (double)str_replace(',','.',$args['lt']);
 			if(array_key_exists('ma',$args)) 		$this->ma			= (double)str_replace(',','.',$args['ma']);
 			if(array_key_exists('cs',$args)) 		$this->cs			= 		 $args['cs'];
@@ -172,8 +172,8 @@ class DonneesComplementaires
 			$this->stade		= 		 $args[18];
 			$this->lp			= (float)$args[19];
 			$this->memo			= 		 $args[20];
-			$this->bc			= (float)$args[21];
-			$this->bh			= (float)$args[22];
+			$this->bp			= (float)$args[21];
+			$this->eb			= (float)$args[22];
 			$this->lt			= (float)$args[23];
 			$this->ma			= (float)$args[24];*/
 		}
@@ -295,49 +295,49 @@ class DonneesComplementaires
     }
 
     /**
-     * Set bc
+     * Set bp
      *
-     * @param float $bc
+     * @param float $bp
      * @return DonneesComplementaires
      */
-    public function setBc($bc)
+    public function setBp($bp)
     {
-        $this->bc = $bc;
+        $this->bp = $bp;
     
         return $this;
     }
 
     /**
-     * Get bc
+     * Get bp
      *
      * @return float 
      */
-    public function getBc()
+    public function getBp()
     {
-        return $this->bc;
+        return $this->bp;
     }
 
     /**
-     * Set bh
+     * Set eb
      *
-     * @param float $bh
+     * @param float $eb
      * @return DonneesComplementaires
      */
-    public function setBh($bh)
+    public function setEb($eb)
     {
-        $this->bh = $bh;
+        $this->eb = $eb;
     
         return $this;
     }
 
     /**
-     * Get bh
+     * Get eb
      *
      * @return float 
      */
-    public function getBh()
+    public function getEb()
     {
-        return $this->bh;
+        return $this->eb;
     }
 
     /**

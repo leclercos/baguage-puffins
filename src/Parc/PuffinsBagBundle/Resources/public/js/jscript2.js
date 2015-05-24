@@ -1,8 +1,8 @@
 function create_champ(i) {
 
 	var i2 = i + 1, champ=document.getElementById('leschamps_'+i);
-	var tablenom=['Action','Annee','Bague','Bagueur','Colonie','Secteur','Terrier'],
-		tablenom1=['action','date','bague','bg', 'colonie','secteur','terrier'];
+	var tablenom=['Action','Annee','Bague','BG','Colonie','Secteur','Terrier','Bagueur','Sexe','Age'],
+		tablenom1=['action','date','bague','bg', 'colonie','secteur','terrier','bagueur','sexe','age'];
 		
 		//alert(champ);
 	if(i>1)
@@ -16,7 +16,7 @@ function create_champ(i) {
 	var form='<br/><select onchange="change(this.value,this.id,'+i+')"  name="new_champ_'+i+'" id="new_champ_'+i+'">',
 		form2, act1=true;
 		
-	for(var j=0; j<7; j++)
+	for(var j=0; j<10; j++)
 	{
 		var act=true;
 		
@@ -57,6 +57,14 @@ function create_champ(i) {
 		}
 		form += '</select>';
 	}
+	else if(document.getElementById('new_champ_'+i).value=='sexe')
+	{
+		form+='<select name="champ'+i+'" id="sexe"> <option value="M">M</option><option value="F">F</option><option value="?">?</option><option value=""> </option></select>';
+	}
+	else if(document.getElementById('new_champ_'+i).value=='age')
+	{
+		form+='<select name="champ'+i+'" id="age"> <option value="PUL">PUL</option><option value="VOL">VOL</option><option value="+1A">+1A</option><option value=""> </option></select>';
+	}
 	else
 	{
 		form+='<input type="text" name="champ'+i+'" id="champ_'+i+'" />';
@@ -66,7 +74,7 @@ function create_champ(i) {
 	//form+=(i < 7) ? '<img src="../bundles/parcpuffinsbag/images/icone_fermer.png" alt="" id="ferm'+i+'" onclick="supprimer(this.id,'+i+')" class="icone"/>' : '';
 	
 	
-	form+= (i < 7) ? '<span id="leschamps_'+i2+'"> <br/> <a href="javascript:create_champ('+i2+')" class="ajout">Ajouter un champ</a></span>' : '';
+	form+= (i < 10) ? '<span id="leschamps_'+i2+'"> <br/> <a href="javascript:create_champ('+i2+')" class="ajout">Ajouter un champ</a></span>' : '';
 	
 	//form2+='<script type="text/javascript">; </script>'
 	//alert(champ.parentNode);
@@ -99,11 +107,18 @@ function change(select,id,i) {
 		}
 		form += '</select>';
 	}
+	else if(document.getElementById('new_champ_'+i).value=='sexe')
+	{
+		form+='<select name="champ'+i+'" id="sexe"> <option value="M">M</option><option value="F">F</option><option value="?">?</option><option value=""> </option></select>';
+	}
+	else if(document.getElementById('new_champ_'+i).value=='age')
+	{
+		form+='<select name="champ'+i+'" id="age"> <option value="PUL">PUL</option><option value="VOL">VOL</option><option value="+1A">+1A</option><option value=""> </option></select>';
+	}
 	else
 	{
-		form='<input type="text" name="champ'+i+'" id="champ_'+i+'" />';
+		form+='<input type="text" name="champ'+i+'" id="champ_'+i+'" />';
 	}
-	
 	//alert(inp);
 	inp.replaceChild(new_elmt,old_elmt);
 	inp.childNodes[k].innerHTML=form;

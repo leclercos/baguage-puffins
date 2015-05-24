@@ -2,6 +2,11 @@
 namespace Parc\PuffinsBagBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Parc\PuffinsBagBundle\Entity\DonneesPrincipales;
 use Parc\PuffinsBagBundle\Entity\DonneesLocalisation;
 use Parc\PuffinsBagBundle\Entity\DonneesCRBPO;
@@ -108,7 +113,10 @@ class PuffinsBagController extends Controller
 			'form' => $form,
 		));
     }
- 
+	
+	/**
+	* @Method("POST")
+	*/
 	public function voirAction($id, $page)
     {
         $em= $this->getDoctrine()->getManager();
@@ -129,8 +137,16 @@ class PuffinsBagController extends Controller
 	*/
 	public function ajouterAction()
     {
-		$puffin  = new DonneesPrincipales();
-        $form = $this->createForm(new DonneesPrincipalesType(), $puffin);
+		$em = $this->getDoctrine()->getManager();
+		
+		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesLocalisation');
+		$rpstr1= $em->getRepository('ParcPuffinsBagBundle:BagueurBG');
+		$rpstr2= $em->getRepository('ParcPuffinsBagBundle:Colonie');
+		
+		$securityContext = $this->container->get('security.context');
+        
+		$puffin  = new DonneesPrincipales();		
+		$form = $this->createForm(new DonneesPrincipalesType($securityContext), $puffin);
        
 		$request = $this->get('request');
 		if ($request->getMethod() == 'POST') 
@@ -138,13 +154,28 @@ class PuffinsBagController extends Controller
 			$form->bind($request);
 			if ($form->isValid()) 
 			{
-				$em = $this->getDoctrine()->getManager();
-				
-				$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesLocalisation');				
 				$lieudit=$puffin->getLieudit();
+				$puffin->setDonneesLocalisation($lieudit);
+				$puffin->setLieudit($lieudit->getLieudit());
 				
-				if(($donneesLocal=$rpstr->getLocalisation($lieudit))) $puffin->setDonneesLocalisation($donneesLocal);
-				else $puffin->setDonneesLocalisation($rpstr->getLocalisation('Inconnu'));
+				/* if(($donneesLocal=$rpstr->getLocalisation($lieuditId))) {
+					$puffin->setDonneesLocalisation($donneesLocal);
+					$puffin->setLieudit($donneesLocal->getLieudit());
+				}else {
+					$puffin->setLieudit('Inconnu');
+				} */
+				
+				$bg = $puffin->getBg(); // Objet BagueurBG
+				$puffin->setBg($bg->getNomCRBPO());
+				
+				$colonie = $puffin->getColonie(); // Objet Colonie
+				$puffin->setColonie($colonie->getColonie());
+				
+				$condRepr = $puffin->getCondRepr(); // Objet Conditionreprise
+				$condRepr !== null ? $puffin->setCondRepr($condRepr->getValeur()) : '' ;
+				
+				$circRepr = $puffin->getCircRepr(); // Objet CirconstanceReprise
+				$circRepr !== null ? $puffin->setCircRepr($circRepr->getValeur()) : '' ;
 				
 				// Cartouche 
 				$cartouche =  new Cartouche();
@@ -163,19 +194,24 @@ class PuffinsBagController extends Controller
 				$this->get('session')->getFlashBag()->add('info', 'Votre enregistrement a été bien ajouté');
 				if($puffin->getSauvegarder())
 				{
-					$puffin->setBague(null);
-					$puffin->setTerrier(null);
-					$puffin->setCondRepr(null);
-					$puffin->setCircRepr(null);
-					$puffin->setSauvegarder(true);
+					$puffin_new = new DonneesPrincipales();
+					
+					$puffin_new->setLieudit($lieudit);					
+					$puffin_new->setBg($bg);
+					$puffin_new->setColonie($colonie);				
+					
+					$puffin_new->setSecteur($puffin->getSecteur());
+					$puffin_new->setDate($puffin->getDate());
+					
+					$puffin_new->setSauvegarder(true);
 					
 					//$this->get('session')->getFlashBag()->add('info', 'Puffin bien enregistré');
-					$form2 = $this->createForm(new DonneesPrincipalesType(), $puffin);
+					$form2 = $this->createForm(new DonneesPrincipalesType($securityContext), $puffin_new);
 					return $this->render('ParcPuffinsBagBundle:PuffinsBag:ajouter.html.twig', array(
-						'puffin' => $puffin,
+						'puffin' => $puffin_new,
 						'form'   => $form2->createView(),
 					));
-				}else				{
+				}else{
 					return $this->redirect($this->generateUrl('parc_puffins_bag_liste'));
 				}
 			}
@@ -193,22 +229,58 @@ class PuffinsBagController extends Controller
 	*/
 	public function modifierAction(DonneesPrincipales $puffin)
     {        
-		//$donnes_princ  = new DonneesPrincipales();
-        $form = $this->createForm(new ModifierDonneesType(), $puffin);
+		$em = $this->getDoctrine()->getManager();
+		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesLocalisation');
+		$rpstr1= $em->getRepository('ParcPuffinsBagBundle:BagueurBG');
+		$rpstr2= $em->getRepository('ParcPuffinsBagBundle:Colonie');
+		$rpstr3= $em->getRepository('ParcPuffinsBagBundle:ConditionReprise');
+		$rpstr4= $em->getRepository('ParcPuffinsBagBundle:CirconstanceReprise');		
+		
+		$securityContext = $this->container->get('security.context');
+		
+		$lieudit = $rpstr->getLocalisationByLieudit($puffin->getLieudit());
+		$puffin->setLieudit($lieudit);
+		
+		$bg = $puffin->getBg();
+		$puffin->setBg($rpstr1->findOneByNomCRBPO($bg));
+		
+		$colonie = $puffin->getColonie();
+		$puffin->setColonie($rpstr2->findOneBy(array('lieudit' => $lieudit->getId(),
+			'colonie' => $colonie), null, null, null));
+		
+		if($puffin->getAction() !== 'B'){
+			$puffin->setCondRepr($rpstr3->findOneByValeur($puffin->getCondRepr()));
+			$puffin->setCircRepr($rpstr4->findOneByValeur($puffin->getCircRepr()));
+		}
+		
+        $form = $this->createForm(new ModifierDonneesType($securityContext), $puffin);
 		$request = $this->get('request');
 		$id=$puffin->getId();
 		if ($request->getMethod() == 'POST') 
 		{
 			$form->bind($request);
-			/*if ($form->isValid()) 
-			{*/
-				$em = $this->getDoctrine()->getManager();
-				//$em->update($puffin);
+			if ($form->isValid()) 
+			{
+				//$bgId = $puffin->getBg();
+				$bg = $puffin->getBg(); // Objet BagueurBG
+				$puffin->setBg($bg->getNomCRBPO());
 				
-				$lieudit=$puffin->getLieudit();
-		
-				$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesLocalisation');
-				if(($donneesLocal=$rpstr->getLocalisation($lieudit))) $puffin->setDonneesLocalisation($donneesLocal);
+				$colonie = $puffin->getColonie(); // Objet Colonie
+				$puffin->setColonie($colonie->getColonie());
+				
+				$lieuditId=$puffin->getLieudit();				
+				if(($donneesLocal=$rpstr->getLocalisation($lieuditId))) {
+					$puffin->setDonneesLocalisation($donneesLocal);
+					$puffin->setLieudit($donneesLocal->getLieudit());
+				}else {
+					$puffin->setLieudit('Inconnu');
+				}
+				if($puffin->getAction() !== 'B'){
+					$condRepr = $puffin->getCondRepr(); // Objet Conditionreprise
+					$puffin->setCondRepr($condRepr->getValeur());
+					$circRepr = $puffin->getCircRepr(); // Objet CirconstanceReprise
+					$puffin->setCircRepr($circRepr->getValeur());
+				}
 				
 				//cartouche
 				$cartouche = $puffin->getCartouche();
@@ -227,9 +299,9 @@ class PuffinsBagController extends Controller
 	
 				$em->flush();
 				
-				$this->get('session')->getFlashBag()->add('info', "Enregistrement N°".$id." bien modifié");
+				$this->get('session')->getFlashBag()->add('info', "Enregistrement N°".$id." a été bien modifié");
 				return $this->redirect($this->generateUrl('parc_puffins_bag_liste'));
-			//}
+			}
 			//return $this->redirect($this->generateUrl('parc_puffins_bag_accueil'));
 		}
 		//
@@ -287,6 +359,7 @@ class PuffinsBagController extends Controller
 				// Cartouche 
 				$cartouche =  new Cartouche();
 				$cartouche->setUserCrea($this->getUser()->getNom());
+				//$cartouche->setUserCrea('Super');
 				$cartouche->setDateMaj(new \DateTime());
 				
 				$keys1=array_filter(fgetcsv($handle,1000,';'));				
@@ -299,8 +372,8 @@ class PuffinsBagController extends Controller
 				$autrem=array_intersect($keys, $keys_autrem); // les cles d'autres champs				
 				$has_pnpc=false;
 				$has_autrem=false;
-				if (count(array_unique($pnpc)) > 1) $has_pnpc=true;
-				if (count(array_unique($autrem)) > 1) $has_autrem=true;				
+				if (count(array_unique($pnpc)) > 0) $has_pnpc=true;
+				if (count(array_unique($autrem)) > 0) $has_autrem=true;				
 				
 				$nbr=0; $err=0; $errors=array();
 				while (($data = fgetcsv($handle, 1000,';')) !== FALSE and  count(array_unique($data))>1)
@@ -322,7 +395,7 @@ class PuffinsBagController extends Controller
 					if(array_key_exists('lieudit',$args)) $lieudit=$args['lieudit'];
 					else $lieudit="Inconnu";
 					
-					if(($donneesLocal=$rpstr->getLocalisation($lieudit))){ 
+					if(($donneesLocal=$rpstr->getLocalisationByLieudit($lieudit))){ 
 						$puffin->setDonneesLocalisation($donneesLocal);									
 						$puffin->setCartouche($cartouche);
 						
@@ -385,25 +458,16 @@ class PuffinsBagController extends Controller
 		$em= $this->getDoctrine()->getManager();
 		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesPrincipales');
 		$liste_puffins=$rpstr->getAllPuffins();
-		//$liste_puffins=$rpstr->getAllPuffins2();
 		
         $handle = fopen('php://memory', 'r+');
         $header = array_keys(array_change_key_case($liste_puffins[0],CASE_UPPER));
 		
 		fputcsv($handle, $header, ";");
-		/* 
-		foreach ($liste_puffins as $puffin) {
-			$value1=$puffin['date'];
-			$puffin['date']=$value1->format('d-m-Y');
-			$value2=$puffin['heure'];
-			$puffin['heure']=$value2->format('H:i:s');
-			$puffin['heure']= str_replace(':','H',$value2);
-            fputcsv($handle, $puffin, ";");
-        } */
+		
 		$liste_puffins_object = new \ArrayObject($liste_puffins);
 		$liste_puffins_iterator = $liste_puffins_object->getIterator();
-		
-		while($liste_puffins_iterator->valid()) {
+		$i=0;
+		while($liste_puffins_iterator->valid() && $i<40000) {
 			$puffin = $liste_puffins_iterator->current();
 			$value1=$puffin['date'];
 			$puffin['date']=$value1->format('d-m-Y');
@@ -412,6 +476,7 @@ class PuffinsBagController extends Controller
 			//$puffin['heure']= str_replace(':','H',$value2);
 			fputcsv($handle, $puffin, ";");
 			$liste_puffins_iterator->next();
+			$i++;
 		}
 		
         rewind($handle);
@@ -422,16 +487,14 @@ class PuffinsBagController extends Controller
             'Content-Type' => 'application/force-download',
             'Content-Disposition' => 'attachment; filename="puffins.csv"'
         ));
-		//$response->headers->set('Content-Transfer-Encoding', "UTF-8");
 		
 		return $response;
-		//return $this->redirect($this->generateUrl('parc_puffins_bag_liste'));
     }
 	
 	/**
 	* @Secure(roles="ROLE_COLLAB")
 	*/
-	public function exporterReqAction($champs,$valeurs)
+	public function exporterReqAction($champs,$valeurs,$crbpo)
     {
 		ini_set('memory_limit', '1024M');
 		
@@ -440,7 +503,7 @@ class PuffinsBagController extends Controller
 		
 		$champs_arr=explode('.',$champs);
 		$valeurs_arr=explode('.',$valeurs);
-		$liste_puffins=$rpstr->findAllPuffinsBy($champs_arr, $valeurs_arr);
+		$liste_puffins=$rpstr->findAllPuffinsBy($champs_arr, $valeurs_arr,$crbpo === 1);
 		
         $handle = fopen('php://memory', 'r+');
         $header = array_keys(array_change_key_case($liste_puffins[0],CASE_UPPER));
@@ -450,14 +513,16 @@ class PuffinsBagController extends Controller
 		$liste_puffins_object = new \ArrayObject($liste_puffins);
 		$liste_puffins_iterator = $liste_puffins_object->getIterator();
 		
-		while($liste_puffins_iterator->valid()) {
+		$i=0;
+		while($liste_puffins_iterator->valid() && $i<40000) {
 			$puffin = $liste_puffins_iterator->current();
 			$value1=$puffin['date'];
 			$puffin['date']=$value1->format('d-m-Y');
 			$value2=$puffin['heure'];
-			$puffin['heure']=$value2->format('H:i:s');
+			//$puffin['heure']=$value2->format('H:i:s');
 			fputcsv($handle, $puffin, ";");
 			$liste_puffins_iterator->next();
+			$i++;
 		}
        
         rewind($handle);
@@ -527,6 +592,7 @@ class PuffinsBagController extends Controller
 		
 		$em= $this->getDoctrine()->getManager();
 		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesPrincipales');
+		
 		$puffins=$rpstr->findPuffinsBy($champs_arr, $valeurs_arr, 50, $colonne, $order, $page);
 		
 		$nombreTotal=count($puffins);
@@ -665,7 +731,7 @@ class PuffinsBagController extends Controller
 							if(array_key_exists('lieudit',$args)) $lieudit=$args['lieudit'];
 							else $lieudit="Inconnu";
 							
-							if(($donneesLocal=$rpstr1->getLocalisation($lieudit))){ 
+							if(($donneesLocal=$rpstr1->getLocalisationByLieudit($lieudit))){ 
 								$puffinModif->setDonneesLocalisation($donneesLocal);	
 								
 								// Validation des donnees
