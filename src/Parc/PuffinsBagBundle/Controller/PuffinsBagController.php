@@ -25,6 +25,7 @@ use Parc\AdminBundle\Form\NewsType;
 use Parc\AdminBundle\Form\DocumentType;
 use Parc\AdminBundle\Entity\News;
 use Parc\AdminBundle\Entity\Document;
+use Parc\UserBundle\Entity\Users;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -169,7 +170,7 @@ class PuffinsBagController extends Controller
 				$puffin->setBg($bg->getNomCRBPO());
 				
 				$colonie = $puffin->getColonie(); // Objet Colonie
-				$puffin->setColonie($colonie->getColonie());
+				if($colonie != null) $puffin->setColonie($colonie->getColonie());
 				
 				$condRepr = $puffin->getCondRepr(); // Objet Conditionreprise
 				$condRepr !== null ? $puffin->setCondRepr($condRepr->getValeur()) : '' ;
@@ -266,7 +267,7 @@ class PuffinsBagController extends Controller
 				$puffin->setBg($bg->getNomCRBPO());
 				
 				$colonie = $puffin->getColonie(); // Objet Colonie
-				$puffin->setColonie($colonie->getColonie());
+				if ($colonie != null) $puffin->setColonie($colonie->getColonie());
 				
 				$lieuditId=$puffin->getLieudit();				
 				if(($donneesLocal=$rpstr->getLocalisation($lieuditId))) {
@@ -383,7 +384,7 @@ class PuffinsBagController extends Controller
 					$data1=array();
 					foreach($data2 as $value){
 						//$data1[]=htmlentities($value, ENT_SUBSTITUTE | ENT_HTML5, "utf-8",true);
-						$data1[]=htmlspecialchars ($value, ENT_QUOTES|ENT_IGNORE, "UTF-8");
+						$data1[]= htmlspecialchars ($value, ENT_QUOTES|ENT_IGNORE, "UTF-8");
 					}
 					$args=array_combine($keys,$data1);
 					
@@ -438,7 +439,7 @@ class PuffinsBagController extends Controller
 				
 				$last=$puffin->getId();
 				$first=$last-$nbr;
-				$msgbag->add('info', $nbr."Enregistrements ont étés ajoutés à la base N°".$first." à N°".$last);
+				$msgbag->add('info', $nbr." Enregistrements ont étés ajoutés à la base N°".$first." à N°".$last);
 				
 				return $this->redirect($this->generateUrl('parc_puffins_bag_liste'));
 			}
@@ -448,16 +449,19 @@ class PuffinsBagController extends Controller
 		));
     }
 	
-	/**
-	* @Secure(roles="ROLE_COLLAB")
-	*/
-	public function exporterAction()
-    {
+	private function exporter($all, $champs,$valeurs, $crbpo){
 		ini_set('memory_limit', '1024M');
 		
 		$em= $this->getDoctrine()->getManager();
 		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesPrincipales');
-		$liste_puffins=$rpstr->getAllPuffins();
+		
+		if($all){			
+			$liste_puffins=$rpstr->getAllPuffins();
+		}else{
+			$champs_arr=explode('.',$champs);
+			$valeurs_arr=explode('.',$valeurs);
+			$liste_puffins=$rpstr->findAllPuffinsBy($champs_arr, $valeurs_arr, $crbpo == 1);
+		}
 		
         $handle = fopen('php://memory', 'r+');
         $header = array_keys(array_change_key_case($liste_puffins[0],CASE_UPPER));
@@ -469,11 +473,27 @@ class PuffinsBagController extends Controller
 		$i=0;
 		while($liste_puffins_iterator->valid() && $i<40000) {
 			$puffin = $liste_puffins_iterator->current();
+			
 			$value1=$puffin['date'];
-			$puffin['date']=$value1->format('d-m-Y');
+			$puffin['date']=$value1->format('d/m/Y');
+			
 			$value2=$puffin['heure'];
-			$puffin['heure']=$value2->format('H:i:s');
-			//$puffin['heure']= str_replace(':','H',$value2);
+			if($value2 != null){				
+				$value3=$value2->format('H:i');
+				$puffin['heure']= str_replace(':','H',$value3);
+			}
+
+			$mesures = ['bp','eb','lt','ma','lp'];
+			foreach($mesures as $mes){
+				if(array_key_exists($mes,$puffin)){
+					$mesVal = $puffin[$mes];
+					if( $mesVal == 0){
+						$puffin[$mes] = "";
+					}else{
+						$puffin[$mes] = str_replace('.',',',$mesVal);
+					}
+				}
+			}
 			fputcsv($handle, $puffin, ";");
 			$liste_puffins_iterator->next();
 			$i++;
@@ -494,47 +514,17 @@ class PuffinsBagController extends Controller
 	/**
 	* @Secure(roles="ROLE_COLLAB")
 	*/
+	public function exporterAction()
+    {
+		return $this->exporter(true, null,null, null);
+    }
+	
+	/**
+	* @Secure(roles="ROLE_COLLAB")
+	*/
 	public function exporterReqAction($champs,$valeurs,$crbpo)
     {
-		ini_set('memory_limit', '1024M');
-		
-		$em= $this->getDoctrine()->getManager();
-		$rpstr= $em->getRepository('ParcPuffinsBagBundle:DonneesPrincipales');
-		
-		$champs_arr=explode('.',$champs);
-		$valeurs_arr=explode('.',$valeurs);
-		$liste_puffins=$rpstr->findAllPuffinsBy($champs_arr, $valeurs_arr,$crbpo === 1);
-		
-        $handle = fopen('php://memory', 'r+');
-        $header = array_keys(array_change_key_case($liste_puffins[0],CASE_UPPER));
-		
-		fputcsv($handle, $header, ";");
-		
-		$liste_puffins_object = new \ArrayObject($liste_puffins);
-		$liste_puffins_iterator = $liste_puffins_object->getIterator();
-		
-		$i=0;
-		while($liste_puffins_iterator->valid() && $i<40000) {
-			$puffin = $liste_puffins_iterator->current();
-			$value1=$puffin['date'];
-			$puffin['date']=$value1->format('d-m-Y');
-			$value2=$puffin['heure'];
-			//$puffin['heure']=$value2->format('H:i:s');
-			fputcsv($handle, $puffin, ";");
-			$liste_puffins_iterator->next();
-			$i++;
-		}
-       
-        rewind($handle);
-        $content = stream_get_contents($handle);
-        fclose($handle);
-        
-        $response= new Response($content, 200, array(
-            'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="puffins.csv"'
-        ));
-		
-		return $response;
+		return $this->exporter(false, $champs,$valeurs, $crbpo);
     }
 	
 	/**
@@ -795,5 +785,29 @@ class PuffinsBagController extends Controller
 		return $this->render('ParcPuffinsBagBundle:PuffinsBag:importerModif.html.twig', array(
             'form'   => $form->createView(),
 		));
+    }
+	
+	/**
+	* @Secure(roles="ROLE_USER")
+	*/
+	public function passwordModifierAction()
+    {	 
+        $em= $this->getDoctrine()->getManager();
+		
+		$request = $this->get('request');	
+		 
+		if ($request->getMethod() == 'POST') 
+		{
+			$password=$this->getRequest()->request->get('password');			
+			$user = $this->getUser();
+			
+			$user->setMdpChanged(true);			
+			$user->setPlainPassword($password);
+			
+			$em->persist($user);
+			$em->flush(); 		
+			$this->get('session')->getFlashBag()->add('info', 'Le mot de passe a été bien modifié!');
+		}
+		return $this->redirect($this->generateUrl('parc_puffins_bag_accueil'));
     }
 }

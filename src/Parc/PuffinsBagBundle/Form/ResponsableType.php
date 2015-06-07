@@ -15,8 +15,8 @@ class ResponsableType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('lieudit', 'entity', array(
-					'label' => '',
+            ->add('nomCRBPO', 'entity', array(
+					'label' => ' ',
 					'class' => 'ParcPuffinsBagBundle:Responsable',
 					'property' => 'nomCRBPO'))
         ;

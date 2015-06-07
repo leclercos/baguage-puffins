@@ -24,7 +24,14 @@
 		{% for doc in documents %}
 			<li class="doc">
 				<div class="doc_nom">
-					<img class="icons" src="{{asset('bundles/parcpuffinsbag/images/%s.png'|format(doc.type))}}" width="48">
+					{% set type = doc.type %}
+					{% if type in  ['jpg','png','gif']%}
+						{% set type = 'jpg' %}
+					{%endif%}
+					{% if type not in  ['jpg','ppt','pdf','txt','xls']%}
+						{% set type = 'inc' %}
+					{%endif%}
+					<img class="icons" src="{{asset('bundles/parcpuffinsbag/images/%s.png'|format(type))}}" width="48">
 					<a href="{{asset('%s/%s.%s'|format(upload_path,doc.id,doc.path))}}" class="doc_nom_lien" target="_self"> 
 					{{doc.nom }}</a>
 				</div>

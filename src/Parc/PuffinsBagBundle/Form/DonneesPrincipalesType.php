@@ -28,7 +28,7 @@ class DonneesPrincipalesType extends AbstractType
 					'class' => 'ParcPuffinsBagBundle:DonneesLocalisation',
 					'property' => 'lieudit',
 					'help' => 'Lieu du baguage',
-					'required'=>false,
+					'required'=>true,
 					'translation_domain' => 'ParcPuffinsBagBundle',				
 					'query_builder' => 
 						function(\Parc\PuffinsBagBundle\Entity\DonneesLocalisationRepository $r){
@@ -68,39 +68,6 @@ class DonneesPrincipalesType extends AbstractType
 								'help' => "Permet d'enregister une nouvelle donnée sur la base de l'ancienne "))
         ;
 		
-		$formModifier = function(FormInterface $form, $lieudit) {            
-			if(null !== $lieudit){
-				$colonies = $lieudit->getColonies();				
-				$form->add('colonie', 'entity', array(
-					'required' => true,
-					'class' => 'ParcPuffinsBagBundle:Colonie',
-					'property' => 'colonie',
-					'choices' => $colonies)
-				);
-			}else{
-				$form->add('colonie', 'text', array('required'=>false));
-			}
-        };
-		$builder->addEventListener(
-			FormEvents::PRE_SET_DATA,
-            function(FormEvent $event) use ($formModifier) {
-                $data = $event->getData();
-                $formModifier($event->getForm(), $data->getLieudit());
-            }
-        );
-		$builder->get('lieudit')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function(FormEvent $event) use ($formModifier) {
-                // Il est important de récupérer ici $event->getForm()->getData(),
-                // car $event->getData() vous renverra la données initiale (vide)
-                $lieudit = $event->getForm()->getData();
-
-                // puisque nous avons ajouté l'écouteur à l'enfant, il faudra passer
-                // le parent aux fonctions de callback!
-                $formModifier($event->getForm()->getParent(), $lieudit);
-            }
-        );
-		
 		$formModifierAction = function(FormInterface $form, $action) {            
 			if(null === $action || $action == 'B') {
 				$form->add('condRepr','text', array(
@@ -109,9 +76,10 @@ class DonneesPrincipalesType extends AbstractType
 							'help' => "Champ obligatoire en cas de controle ou de reprise d'un oiseau. Pour plus d'informations voir le guide de saisie CRBPO",
 							'translation_domain' => 'ParcPuffinsBagBundle'))
 					 ->add('circRepr','text', array(
-						'disabled'=>true, 
-						'help' => "Champ obligatoire en cas de controle ou de reprise d'un oiseau. Pour plus d'informations voir le guide de saisie CRBPO",
-						'translation_domain' => 'ParcPuffinsBagBundle'));				
+							'required'=>false,
+							'disabled'=>true, 
+							'help' => "Champ obligatoire en cas de controle ou de reprise d'un oiseau. Pour plus d'informations voir le guide de saisie CRBPO",
+							'translation_domain' => 'ParcPuffinsBagBundle'));				
 			}else{
 				$form->add('condRepr', 'entity', array(
 							'class' => 'ParcPuffinsBagBundle:ConditionReprise',
@@ -140,6 +108,40 @@ class DonneesPrincipalesType extends AbstractType
                 $formModifierAction($event->getForm()->getParent(), $action);
             }
         );
+		
+		$formModifier = function(FormInterface $form, $lieudit) {            
+			if(null !== $lieudit){
+				$colonies = $lieudit->getColonies();				
+				$form->add('colonie', 'entity', array(
+					'required' => false,
+					'class' => 'ParcPuffinsBagBundle:Colonie',
+					'property' => 'colonie',
+					'choices' => $colonies)
+				);
+			}else{
+				$form->add('colonie', 'text', array('required'=>false));
+			}
+        };
+		$builder->addEventListener(
+			FormEvents::PRE_SET_DATA,
+            function(FormEvent $event) use ($formModifier) {
+                $data = $event->getData();
+                $formModifier($event->getForm(), $data->getLieudit());
+            }
+        );
+		$builder->get('lieudit')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function(FormEvent $event) use ($formModifier) {
+                // Il est important de récupérer ici $event->getForm()->getData(),
+                // car $event->getData() vous renverra la données initiale (vide)
+                $lieudit = $event->getForm()->getData();
+
+                // puisque nous avons ajouté l'écouteur à l'enfant, il faudra passer
+                // le parent aux fonctions de callback!
+                $formModifier($event->getForm()->getParent(), $lieudit);
+            }
+        );
+		
 		$formModifierAge = function(FormInterface $form, $age) {            
 			if(null === $age || $age == 'PUL') {
 				$form->add('donneesComplementaires',new DonneesComplementairesType());				

@@ -110,6 +110,9 @@ class AdminController extends Controller
 		));
     }
 	
+/* 	/**
+	* @Secure(roles="ROLE_USER")
+	/
 	public function passwordModifierAction()
     {	 
         $em= $this->getDoctrine()->getManager();
@@ -129,7 +132,7 @@ class AdminController extends Controller
 			$this->get('session')->getFlashBag()->add('info', 'Le mot de passe a été bien modifié!');
 		}
 		return $this->redirect($this->generateUrl('parc_puffins_bag_accueil'));
-    }
+    } */
 	
 	public function passwordReinitialiserAction(Users $user)
     {	 

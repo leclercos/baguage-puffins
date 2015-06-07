@@ -1,8 +1,8 @@
 function create_champ(i) {
 
 	var i2 = i + 1, champ=document.getElementById('leschamps_'+i);
-	var tablenom=['Action','Annee','Bague','BG','Colonie','Secteur','Terrier','Bagueur','Sexe','Age'],
-		tablenom1=['action','date','bague','bg', 'colonie','secteur','terrier','bagueur','sexe','age'];
+	var tablenom=['Lieudit','Action','Annee','Bague','BG','Colonie','Secteur','Terrier','Bagueur','Sexe','Age'],
+		tablenom1=['lieudit','action','date','bague','bg', 'colonie','secteur','terrier','bagueur','sexe','age'];
 		
 		//alert(champ);
 	if(i>1)
@@ -16,7 +16,7 @@ function create_champ(i) {
 	var form='<br/><select onchange="change(this.value,this.id,'+i+')"  name="new_champ_'+i+'" id="new_champ_'+i+'">',
 		form2, act1=true;
 		
-	for(var j=0; j<10; j++)
+	for(var j=0; j<11; j++)
 	{
 		var act=true;
 		
@@ -74,7 +74,7 @@ function create_champ(i) {
 	//form+=(i < 7) ? '<img src="../bundles/parcpuffinsbag/images/icone_fermer.png" alt="" id="ferm'+i+'" onclick="supprimer(this.id,'+i+')" class="icone"/>' : '';
 	
 	
-	form+= (i < 10) ? '<span id="leschamps_'+i2+'"> <br/> <a href="javascript:create_champ('+i2+')" class="ajout">Ajouter un champ</a></span>' : '';
+	form+= (i < 11) ? '<span id="leschamps_'+i2+'"> <br/> <a href="javascript:create_champ('+i2+')" class="ajout">Ajouter un champ</a></span>' : '';
 	
 	//form2+='<script type="text/javascript">; </script>'
 	//alert(champ.parentNode);

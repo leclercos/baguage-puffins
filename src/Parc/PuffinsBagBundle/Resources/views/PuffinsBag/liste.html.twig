@@ -21,10 +21,6 @@
 			<a class="lien" href="{{ path('parc_puffins_bag_importer') }}">
 				<img src="{{asset('bundles/parcpuffinsbag/images/importer.png')}}" width="32" title="Importer un fichier CSV" class="icone"></a>
 		{% endif %}
-		{#% if is_granted('ROLE_COLLAB') %}	
-			<a class="lien" href="{{ path('parc_puffins_bag_importerModif') }}">
-				<img src="{{asset('bundles/parcpuffinsbag/images/modifierFichier.png')}}" width="32" title="Modifier un fichier CSV" class="icone"></a>
-		{% endif %#}
 		{% if is_granted('ROLE_COLLAB') %}	
 			<a class="lien" href="{{ path('parc_puffins_bag_ajouter') }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/ajouter.png')}}" width="32" title="Ajouter un enregistrement" class="icone"></a><br>

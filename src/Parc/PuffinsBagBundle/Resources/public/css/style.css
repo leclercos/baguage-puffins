@@ -102,14 +102,14 @@ nav a
 
 nav a:hover, nav a:active
 {
-	line-height: 21px;
+	/*line-height: 21px;*/
 	color: white;
 	background-color:#ec8828;
 	font-weight:bold;
 	border: 2px solid #0068b1;
 }
 
-/* #main nav{
+#main nav{
 	margin-left: 150px;;
 } 
 
@@ -125,6 +125,11 @@ nav a:hover, nav a:active
 	text-decoration: none;
 	background-color: white;
 	border-radius:0;
+}
+
+#main nav a:hover
+{
+	sfont-weight:bold;
 }
 
 /**************** Corps acceuil*************/
@@ -179,7 +184,7 @@ aside
 	background-color: #0068b1;
 	padding:6px;
 	color:white;
-	width:25%;
+	width:30%;
 	text-align:center;
 	border: 2px solid #0068b1;
 	border-radius:0 15px 15px 0;
@@ -438,7 +443,7 @@ span.required{
 }
 
 .form_1 input[type="text"],.form_2 input[type="text"], .form_1 select {
-	width: 85%;
+	width: 80%;
 }
 
 .form_1 input[type="text"],.form_2 input[type="text"]{
@@ -589,7 +594,11 @@ textarea#parc_puffinsbagbundle_donneesprincipalestype_donneesComplementaires_mem
     margin-top:-30px; margin-left:28px;
     width:300px; line-height:16px;
 }
-	
+
+a.lien {
+  text-decoration: none;
+}
+
 /********** TABS *****************
   .ui-tabs-vertical { width: 55em; }
   .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }

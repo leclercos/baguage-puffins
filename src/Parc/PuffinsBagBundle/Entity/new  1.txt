@@ -1,0 +1,10 @@
+{{form_start(form)}}
+			{{form_row(form.lieudit)}}<br>
+			{{form_row(form.codeIle)}}<br>
+			{{form_row(form.bagueur.lieudit)}}<br>
+			{{form_end(form)}}
+			{{form_row(form.theme)}}<br>
+			{{form_row(form.centre)}}<br>
+			{{form_row(form.pays)}}<br>
+			{{form_row(form.dept)}}<br>
+			{{form_row(form.localite)}}<br>

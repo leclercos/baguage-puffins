@@ -43,7 +43,7 @@
 				{% if image_path is defined and image_path is not null %}
 					<span class="help_img"><img src={{asset('bundles/parcpuffinsbag/images/aide.png')}} width="16"/>
 						<span> {% if help is defined and help is not null %} {{help}} {% endif %}
-							<img src={{asset('bundles/parcpuffinsbag/images/aide.png')}} width="250" style="float:right;"/> 
+							<img src={{asset('bundles/parcpuffinsbag/images/'~image_path~'.png')}} style="float:right;"/> 
 						</span>
 					</span>	
 				{% else %}

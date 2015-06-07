@@ -96,8 +96,6 @@ class DonneesPrincipales
      * @var string
      *
      * @ORM\Column(name="colonie", type="string", length=255, nullable=true)
-	 *
-	 * @Assert\NotBlank(message="La colonie est obligatoire", groups={"importer"})
      */
     private $colonie;
 
@@ -499,8 +497,20 @@ class DonneesPrincipales
 			$this->circRepr   = (int)$valeurs['circrepr'];
 		// format de l'heure	
 		if(array_key_exists('heure',$valeurs)){
-			$heure=str_ireplace('H',':',$valeurs['heure']);
-			$this->heure = new \Datetime($heure);
+			$date = new \Datetime();
+			
+			$heure_str=str_ireplace('H',':',$valeurs['heure']);
+			$heure1=explode(':',$heure_str);
+			if( count($heure1)== 1 and $heure1[0]!= null){
+				$this->heure = $date->setTime((int)$heure1[0], 00);
+			}else if(count($heure1) == 2){
+				$this->heure = $date->setTime((int)$heure1[0], (int)$heure1[1]);
+			}else if(count($heure1) == 3 ){
+				$this->heure = $date->setTime((int)$heure1[0], (int)$heure1[1], (int)$heure1[2]);
+			}else{
+				$this->heure = null;
+			}
+			
 		}
 		// format de la date
 		if(array_key_exists('date',$valeurs)){

@@ -19,12 +19,15 @@
 		<a class="lien" href="{{ path('parc_puffins_bag_liste',{'page': page }) }}">	
 		<img src="{{asset('bundles/parcpuffinsbag/images/retour.png')}}" width="32" title="Retour à la liste" alt="Retour" class="icone">
 		</a>
-		{% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and app.user.responsable == local.bagueur) %}			
+		{% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and app.user.responsable == puffin.donneesLocalisation.bagueur) %}			
 			<a class="lien supp_enr" id="{{ path('parc_puffins_bag_supprimer', { 'id': puffin.id }) }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" title="Supprimer" width="32" alt="Supprimer" class="icone">
 			</a>			
 		{% endif %} 
-		{% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_COLLAB') and app.user.responsable == local.bagueur) %}	
+		{#% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_COLLAB') and app.user.responsable == puffin.donneesLocalisation.bagueur) %#}
+		{% if app.user.responsable == puffin.donneesLocalisation.bagueur %}
+			{{app}} = {{puffin.id}}
+			puffin.id app
 			<a class="lien" href="{{ path('parc_puffins_bag_modifier', { 'id': puffin.id }) }}">
 			<img src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="32" title="Modifier" class="icone">
 			</a>
@@ -74,7 +77,11 @@
 						{% elseif key == "heure" %}
 							<tr>
 								<th>{{ key|capitalize }}:</th>
-								<td>{{ value|date("H:i:s") }}</td>
+								<td>
+									{% if value != null%}
+										{{ value|date("H:i:s") }}
+									{% endif%}
+								</td>
 							</tr>
 						{% else %}
 							<tr>

@@ -12,10 +12,6 @@ parc_admin_users_modifier:
     requirements:
         id:  \d+
 
-parc_admin_password_modifier:
-    pattern: /modifier
-    defaults: { _controller: ParcAdminBundle:Admin:passwordModifier}
-
 parc_admin_password_reinitialiser:
     pattern: /reinitialiser/{id}
     defaults: { _controller: ParcAdminBundle:Admin:passwordReinitialiser}

@@ -107,8 +107,16 @@ class DonneesPrincipalesRepository extends EntityRepository
 		{
 			$nb = count($valeurs);
 			if ($critere === 'date'){
-				$dated=new \DateTime('01/01/'.$valeurs[0].'');
-				$datef=new \DateTime('12/31/'.$valeurs[0].'');
+				$anneeMin = $valeurs[0];
+				$anneeMax = $valeurs[0];
+				for($j=1;$j<$nb;$j++){
+					if((int)$valeurs[$j]>(int)$anneeMax) 
+						$anneeMax = $valeurs[$j];
+					if((int)$valeurs[$j]<(int)$anneeMin)
+						$anneeMin = $valeurs[$j];
+				}
+				$dated=new \DateTime('01/01/'.$anneeMin);
+				$datef=new \DateTime('12/31/'.$anneeMax);
 				
 				$query->andwhere('pr.date BETWEEN :dated and :datef')
 					  ->setParameter('dated',$dated)
@@ -116,7 +124,9 @@ class DonneesPrincipalesRepository extends EntityRepository
 			}else if($critere === 'bague'){				
 				$qu_str = 'lower(pr.bague) like lower(:valeur'.$i.') OR lower(cp.pr1) like lower(:valeur'.$i.') 
 						  OR lower(cp.pr2) like lower(:valeur'.$i.') OR lower(cp.ptd) like lower(:valeur'.$i.')';
-
+						  
+				$query->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
+				
 				//$qu_str = $qu_str1;
 				for($j=1;$j<$nb;$j++){
 					$i++;
@@ -124,31 +134,28 @@ class DonneesPrincipalesRepository extends EntityRepository
 						  OR lower(cp.pr2) like lower(:valeur'.$i.') OR lower(cp.ptd) like lower(:valeur'.$i.')';
 					$query ->setParameter('valeur'.$i,'%'.$valeurs[$j].'%');
 				}
-				$query->andwhere($qu_str)
-					 ->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
+				$query->andwhere($qu_str);
 				
 			}else if($critere === 'bagueur'){					  
-				$qu_str = 'lower(ba.nomCRBPO) like lower(:valeur'.$i.')';
+				$qu_str = 'lower(ba.nomCRBPO) like lower(:valeur'.$i.')';				
+				$query->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
 				
-				$nb = count($valeurs);
 				for($j=1;$j<$nb;$j++){
 					$i++;
 					$qu_str = $qu_str .' OR lower(ba.nomCRBPO) like lower(:valeur'.$i.')';
 					$query ->setParameter('valeur'.$i,'%'.$valeurs[$j].'%');
 				}
-				$query->andwhere($qu_str)
-					  ->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
+				$query->andwhere($qu_str);
 				
 			}else{
 				$qu_str = 'lower(pr.'.$critere.') like lower(:valeur'.$i.')';
-				
+				$query->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
 				for($j=1;$j<$nb;$j++){
 					$i++;
 					$qu_str = $qu_str .' OR lower(pr.'.$critere.') like lower(:valeur'.$i.')';
 					$query ->setParameter('valeur'.$i,'%'.$valeurs[$j].'%');
 				}
-				$query->andwhere($qu_str)
-					  ->setParameter('valeur'.$i,'%'.$valeurs[0].'%');
+				$query->andwhere($qu_str);
 			}
 			$i++;
 		}

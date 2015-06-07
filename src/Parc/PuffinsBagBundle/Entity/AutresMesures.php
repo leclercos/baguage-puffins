@@ -83,14 +83,22 @@ class AutresMesures
 	{
 		if(is_array($args) && !empty($args))
 		{
-			if(array_key_exists('champ1',$args)) $this->champ1	 =		 $args['champ1'];
-			if(array_key_exists('champ2',$args)) $this->champ2	 =		 $args['champ2'];
-			if(array_key_exists('champ3',$args)) $this->champ3	 =		 $args['champ3'];
-			if(array_key_exists('champ4',$args)) $this->champ4 	 =		 $args['champ4'];
-			if(array_key_exists('mesure1',$args)) $this->mesure1 =(float)$args['mesure1'];
-			if(array_key_exists('mesure2',$args)) $this->mesure2 =(float)$args['mesure2'];
-			if(array_key_exists('mesure3',$args)) $this->mesure3 =(float)$args['mesure3'];
-			if(array_key_exists('mesure4',$args)) $this->mesure4 =(float)$args['mesure4'];
+			if(array_key_exists('champ1',$args) && $args['champ1']!= null) 
+				$this->champ1	 =		 $args['champ1'];
+			if(array_key_exists('champ2',$args) && $args['champ2']!= null)
+				$this->champ2	 =		 $args['champ2'];
+			if(array_key_exists('champ3',$args) && $args['champ3']!= null) 
+				$this->champ3	 =		 $args['champ3'];
+			if(array_key_exists('champ4',$args) && $args['champ4']!= null) 
+				$this->champ4 	 =		 $args['champ4'];
+			if(array_key_exists('mesure1',$args) && $args['mesure1']!= null) 
+				$this->mesure1 =(float)$args['mesure1'];
+			if(array_key_exists('mesure2',$args)  && $args['mesure2']!= null) 
+				$this->mesure2 =(float)$args['mesure2'];
+			if(array_key_exists('mesure3',$args)  && $args['mesure3']!= null) 
+				$this->mesure3 =(float)$args['mesure3'];
+			if(array_key_exists('mesure4',$args)  && $args['mesure4']!= null) 
+				$this->mesure4 =(float)$args['mesure4'];
 		}
 	}
 	

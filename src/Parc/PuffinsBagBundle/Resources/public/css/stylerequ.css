@@ -2,7 +2,7 @@
 form #requetes #leschamps_0
 {
 	display: inline-block;
-	width: 25%; 	
+	width: 30%; 	
 	vertical-align: top;
 	/*border: 1px solid gray;*/
 	margin: 0px;
@@ -79,7 +79,7 @@ Input[type=checkbox]
 }
 
 #leschamps_0 label{
-	margin: 10px 30px 10px 5px
+	margin: 10px 30px 10px 5px;
 }
 /*input[type=submit]
  {

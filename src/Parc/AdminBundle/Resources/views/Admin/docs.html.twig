@@ -42,12 +42,12 @@
 					{% if is_granted('ROLE_ADMIN') %}
 						<li>
 							<a href="{{ path('parc_admin_docs_modifier', { 'id': doc.id }) }}">
-								<img title="Modifier" src="{{asset('bundles/parcpuffinsbag/images/modifier.jpg')}}" width="24"/>
+								<img title="Modifier" src="{{asset('bundles/parcpuffinsbag/images/modifier.png')}}" width="24"/>
 							</a>
 						</li>
 						<li>
 							<a class="supp_enr" id="{{ path('parc_admin_docs_supprimer', { 'id': doc.id }) }}">
-								<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/supprimer.jpg')}}" width="24"/>
+								<img title="Supprimer" src="{{asset('bundles/parcpuffinsbag/images/supprimer.png')}}" width="24"/>
 							</a>
 						</li>
 					{% endif %}               

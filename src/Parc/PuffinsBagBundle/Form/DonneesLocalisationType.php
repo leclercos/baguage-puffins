@@ -13,7 +13,8 @@ class DonneesLocalisationType extends AbstractType
         $builder
             ->add('lieudit')
             ->add('codeIle')
-            ->add('bagueur', new ResponsableType())
+            ->add('bagueur', new ResponsableType(),  array( 
+					'label' => 'Responsable'))
             ->add('theme')
             ->add('centre')
             ->add('pays')

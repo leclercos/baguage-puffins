@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class DonneesComplementairesType extends AbstractType
+class DonneesComplementairesType2 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,7 +21,7 @@ class DonneesComplementairesType extends AbstractType
             ->add('lp', 'number', array('required' => false, 'max_length'=>3, 'help' => "Longueur de l'aile (en mm) "))
             ->add('memo', 'textarea', array('required' => false))
             ->add('bp', 'number', array('required' => false, 'max_length'=>3, 'help' => "Hauteur du bec depuis la base du crâne (en mm)"))
-            ->add('eb', 'number', array('required' => false, 'max_length'=>3, 'help' => "Longeur du bec (en mm)"))
+            ->add('eb', 'number', array('required' => false, 'max_length'=>3, 'help' => "Longeur du bec (en mm)", 'image_path' => 'aide_eb'))
             //->add('lt', 'number', array('required' => false))
             ->add('ma', 'number', array('required' => false, 'max_length'=>4, 'help' => "Masse de l'oiseau (en g)", 'image_path' => 'ff'))
         ;
@@ -36,6 +36,6 @@ class DonneesComplementairesType extends AbstractType
 
     public function getName()
     {
-        return 'parc_puffinsbagbundle_donneescomplementairestype';
+        return 'parc_puffinsbagbundle_donneescomplementairestype2';
     }
 }
