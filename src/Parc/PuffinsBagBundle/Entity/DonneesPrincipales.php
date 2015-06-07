@@ -180,7 +180,7 @@ class DonneesPrincipales
 	private $autresMesures;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Parc\PuffinsBagBundle\Entity\Cartouche", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Parc\PuffinsBagBundle\Entity\Cartouche", cascade={"persist"})
 	 * @ORM\JoinColumn(nullable=true)
 	 *
 	 * @Assert\Valid()
